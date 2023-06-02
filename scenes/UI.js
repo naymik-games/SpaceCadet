@@ -67,13 +67,13 @@ class UI extends Phaser.Scene {
     this.cautionContainer = this.add.container()
     this.cautionIcon = this.add.sprite(450, 190, 'caution').setScale(2)
     this.cautionContainer.add(this.cautionIcon)
-    const fx1 = this.cautionIcon.postFX.addGlow(0xff0000, 0, 0, false, 0.1, 32);
+
     this.tweens.add({
-      targets: fx1,
-      outerStrength: 1,
+      targets: this.cautionIcon,
+      alpha: .4,
       yoyo: true,
       loop: -1,
-      duration: 250,
+      duration: 500,
       yoyo: true
       //ease: 'sine.inout'
     });
