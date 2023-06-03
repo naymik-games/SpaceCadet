@@ -46,7 +46,7 @@ class Deck {
 
     var cardIndex = 0
 
-    for (let j = 0; j < sectors[0].length; j++) {
+    for (let j = 0; j < sectors[playerData.currentSector].length; j++) {
       //scene, x, y, texture, frame, index, type
       // final placement game.config.width / 2, game.config.height / 2 - 100
       var card = new Card(this.scene, -800, game.config.height / 2 - 100, 'cards', cardTypes[sectors[playerData.currentSector][j]].frame, cardIndex, sectors[playerData.currentSector][j])
@@ -171,8 +171,8 @@ class Card extends Phaser.GameObjects.Image {
               onComplete: () => {
                 this.useCard()
                 this.scene.doRadiate(this.x, this.y)
-                this.scene.damagePlayer(1)
-                playerData.power = 0
+                //this.scene.damagePlayer(1)
+                playerData.power = 1
                 this.scene.addPower()
               }
             })

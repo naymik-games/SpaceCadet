@@ -134,9 +134,9 @@ class preloadGame extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
-    this.load.spritesheet("explosion", "assets/sprites/explosion.png", {
-      frameWidth: 64,
-      frameHeight: 64,
+    this.load.spritesheet("explosion", "assets/sprites/144x44-explosions.png", {
+      frameWidth: 144,
+      frameHeight: 144,
     });
     // weapons//////////////////////
     this.load.spritesheet("rifle", "assets/sprites/weapons/rifle.png", {

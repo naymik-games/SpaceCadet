@@ -48,12 +48,13 @@ var defaultValues = {
 
 }
 let sectors = [
-  ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
+  ['EMPTY', 'EMPTY', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'EXPLOSION'],
   ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
   ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
   ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION']
 ]
 let rankData = [
+  { name: 'CITIZEN', upgrade: null },
   { name: 'RECRUIT', upgrade: null },
   { name: 'CADET', upgrade: '+1 AROMOR MAX' },
   { name: 'PROBIE', upgrade: '+1 HP MAX' },

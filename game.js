@@ -141,7 +141,7 @@ class playGame extends Phaser.Scene {
     this.anims.create({
       key: 'explode_anim',
       frames: 'explosion',
-      frameRate: 14,
+      frameRate: 8,
       repeat: 0
     });
     this.anims.create({
@@ -407,7 +407,7 @@ class playGame extends Phaser.Scene {
   doExplosion(x, y) {
     this.cameras.main.flash();
     var exp = this.explodes.get().setActive(true);
-    exp.setOrigin(0.5, 0.5).setScale(14).setDepth(3).setAlpha(1);
+    exp.setOrigin(0.5, 0.5).setScale(6).setDepth(3).setAlpha(1);
     exp.setPosition(x, y)
     exp.play('explode_anim')
     exp.on('animationcomplete', function () {
