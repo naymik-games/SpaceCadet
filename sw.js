@@ -24,6 +24,7 @@ var filesToCache = [
 
   '/assets/sprites/68x68-scanFlash.png',
   '/assets/sprites/256x32-power-critical.png',
+  '/assets/sprites/144x44-explosions.png',
 
   '/assets/sprites/armor_icons.png',
   '/assets/sprites/blank.png',
