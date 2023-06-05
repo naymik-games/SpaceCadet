@@ -28,7 +28,7 @@ let playerDataDefault = {
   hp: 5,
   hpMax: 5,
   power: 10,
-  xp: 45,
+  xp: 0,
   xpMax: 50,
   armor: 0,
   armorMax: 2,
