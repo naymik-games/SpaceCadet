@@ -9,7 +9,8 @@ let cardTypes = {
   GERNADE: { name: 'GERNADE', key: 'gernade', frame: 1, hp: 1, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
   PISTOL1: { name: 'PISTOL', key: 'pistol', frame: 1, hp: 1, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
   PISTOL2: { name: 'PISTOL', key: 'pistol', frame: 2, hp: 1, addHP: 0, addCell: 0, action: 'fight', ammo: 2, canTake: true },
-  SHOTGUN: { name: 'SHOTGUN', key: 'shotgun', frame: 2, hp: 2, addHP: 0, addCell: 0, action: 'fight', ammo: 2, canTake: true },
+  SHOTGUN1: { name: 'SHOTGUN', key: 'shotgun', frame: 2, hp: 2, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
+  //SHOTGUN3: { name: 'SHOTGUN', key: 'shotgun', frame: 2, hp: 2, addHP: 0, addCell: 0, action: 'fight', ammo: 3, canTake: true },
   MACHINEGUN: { name: 'MACHINEGUN', key: 'machinegun', frame: 3, hp: 2, addHP: 0, addCell: 0, action: 'fight', ammo: 3, canTake: true },
   ROCKETLAUNCHER: { name: 'ROCKET LAUNCHER', key: 'rocketlauncher', frame: 1, hp: 4, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
   KNIFE: { name: 'KNIFE', key: 'knife', frame: 1, hp: 1, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
@@ -62,10 +63,10 @@ class Deck {
 
     var cardIndex = 0
 
-    for (let j = 0; j < sectors[playerData.currentSector].length; j++) {
+    for (let j = 0; j < sector.length; j++) {
       //scene, x, y, texture, frame, index, type
       // final placement game.config.width / 2, game.config.height / 2 - 100
-      var card = new Card(this.scene, -800, game.config.height / 2 - 100, 'cards', cardTypes[sectors[playerData.currentSector][j]].frame, cardIndex, sectors[playerData.currentSector][j])
+      var card = new Card(this.scene, -800, game.config.height / 2 - 100, 'cards', cardTypes[sector[j]].frame, cardIndex, sector[j])
       this.cards.push(card);// cardTypes[sectors[0][j]].key
       this.cardContainer.add(card)
       cardIndex++

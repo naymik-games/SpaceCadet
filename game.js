@@ -43,6 +43,8 @@ class playGame extends Phaser.Scene {
   }
   create() {
 
+    makeSector()
+
     this.canMove = false
     this.cameras.main.setBackgroundColor(0x000000);
     this.starBack = this.add.tileSprite(0, 0, 900, 1640, 'star_back').setOrigin(0)

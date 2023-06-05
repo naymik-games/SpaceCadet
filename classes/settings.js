@@ -51,12 +51,39 @@ var defaultValues = {
   currentLevel: 0
 
 }
+let sector = []
 let sectors = [
-  ['EMPTY', 'SCANNER', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'EXPLOSION'],
+  ['EMPTY', 'SCANNER', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SCORPOID', 'BATTERY', 'EXPLOSION'],
   ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
   ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
   ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION']
 ]
+//definately will appear per rank
+let rankFixed = [
+  [null],
+  ['EMPTY', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SCORPOID', 'BATTERY', 'EXPLOSION'],
+  ['EMPTY', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR2', 'BEASTBOT', 'MEDKIT3', 'SCORPOID', 'BATTERY', 'EXPLOSION', 'ARMOR1', 'CRATE', 'RADIATION'],
+  ['EMPTY', 'EXIT',],
+  ['EMPTY', 'EXIT',],
+  ['EMPTY', 'EXIT',],
+  ['EMPTY', 'EXIT',],
+  ['EMPTY', 'EXIT',],
+  ['EMPTY', 'EXIT',],
+  ['EMPTY', 'EXIT',],
+  ['EMPTY', 'EXIT',],
+]
+//enemies available per rank
+let rankEnemies = [
+  [null],
+  ['SORPOID', 'BEASTBOT'],
+  ['SORPOID', 'BEASTBOT', 'SPIDERBOT'],
+  ['SORPOID', 'BEASTBOT', 'SPIDERBOT', 'TROOPER'],
+  ['BEASTBOT', 'SPIDERBOT', 'TROOPER', 'SCAVBOT'],
+]
+function makeSector() {
+  sector = JSON.parse(JSON.stringify(rankFixed[playerData.rank]));
+
+}
 let rankData = [
   { name: 'CITIZEN', upgrade: null },//NOT USED
   { name: 'RECRUIT', upgrade: null },
