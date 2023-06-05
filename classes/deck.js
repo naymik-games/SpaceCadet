@@ -1,8 +1,9 @@
 let cardTypes = {
+  //required
   EMPTY: { name: 'EMPTY ROOM', key: 'cards', frame: 3, hp: 0, addHP: 0, addCell: 0, action: null, canTake: false },
   EXIT: { name: 'EXIT', key: 'cards', frame: 4, hp: 0, addHP: 0, addCell: 0, action: 'end', canTake: false },
-  CRATE: { name: 'CRATE', key: 'cards', frame: 7, hp: 0, addHP: 0, addCell: 0, action: 'collect', canTake: false },
 
+  //weapons
   RIFLE1: { name: 'RIFLE', key: 'rifle', frame: 1, hp: 3, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
   RIFLE3: { name: 'RIFLE', key: 'rifle', frame: 3, hp: 3, addHP: 0, addCell: 0, action: 'fight', ammo: 3, canTake: true },
   GERNADE: { name: 'GERNADE', key: 'gernade', frame: 1, hp: 1, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
@@ -10,23 +11,38 @@ let cardTypes = {
   PISTOL2: { name: 'PISTOL', key: 'pistol', frame: 2, hp: 1, addHP: 0, addCell: 0, action: 'fight', ammo: 2, canTake: true },
   SHOTGUN: { name: 'SHOTGUN', key: 'shotgun', frame: 2, hp: 2, addHP: 0, addCell: 0, action: 'fight', ammo: 2, canTake: true },
   MACHINEGUN: { name: 'MACHINEGUN', key: 'machinegun', frame: 3, hp: 2, addHP: 0, addCell: 0, action: 'fight', ammo: 3, canTake: true },
-  ROCKETLAUNCHER: { name: 'ROCKETLAUNCHER', key: 'rocketlauncher', frame: 1, hp: 4, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
+  ROCKETLAUNCHER: { name: 'ROCKET LAUNCHER', key: 'rocketlauncher', frame: 1, hp: 4, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
   KNIFE: { name: 'KNIFE', key: 'knife', frame: 1, hp: 1, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
-
+  //powerup
   BATTERY: { name: 'BATTERY', key: 'cards', frame: 5, hp: 0, addHP: 3, addCell: 0, action: 'addPower', ammo: 0, canTake: true },
   ARMOR1: { name: 'POWER ARMOR', key: 'cards', frame: 15, hp: 0, addHP: 0, addCell: 0, action: 'vest', ammo: 0, canTake: true, addArmor: 1 },
   ARMOR2: { name: 'POWER ARMOR', key: 'cards', frame: 16, hp: 0, addHP: 0, addCell: 0, action: 'vest', ammo: 0, canTake: true, addArmor: 2 },
   ARMOR3: { name: 'POWER ARMOR', key: 'cards', frame: 17, hp: 0, addHP: 0, addCell: 0, action: 'vest', ammo: 0, canTake: true, addArmor: 3 },
-  MEDKIT2: { name: 'MEDKIT', key: 'cards', frame: 10, hp: 0, addHP: 2, addCell: 0, action: 'addHP', ammo: 0, canTake: true },
-  MEDKIT3: { name: 'MEDKIT', key: 'cards', frame: 11, hp: 3, addHP: 3, addCell: 0, action: 'addHP', ammo: 0, canTake: true },
-  MEDKIT4: { name: 'MEDKIT', key: 'cards', frame: 12, hp: 0, addHP: 4, addCell: 0, action: 'addHP', ammo: 0, canTake: true },
+  ARMOR4: { name: 'POWER ARMOR', key: 'cards', frame: 18, hp: 0, addHP: 0, addCell: 0, action: 'vest', ammo: 0, canTake: true, addArmor: 4 },
+  ARMOR5: { name: 'POWER ARMOR', key: 'cards', frame: 19, hp: 0, addHP: 0, addCell: 0, action: 'vest', ammo: 0, canTake: true, addArmor: 5 },
 
+  MEDKIT1: { name: 'MEDKIT', key: 'cards', frame: 10, hp: 0, addHP: 1, addCell: 0, action: 'addHP', ammo: 0, canTake: true },
+  MEDKIT3: { name: 'MEDKIT', key: 'cards', frame: 11, hp: 0, addHP: 3, addCell: 0, action: 'addHP', ammo: 0, canTake: true },
+  MEDKIT5: { name: 'MEDKIT', key: 'cards', frame: 12, hp: 0, addHP: 5, addCell: 0, action: 'addHP', ammo: 0, canTake: true },
+  MEDKIT7: { name: 'MEDKIT', key: 'cards', frame: 13, hp: 0, addHP: 7, addCell: 0, action: 'addHP', ammo: 0, canTake: true },
+  MEDKIT10: { name: 'MEDKIT', key: 'cards', frame: 14, hp: 0, addHP: 10, addCell: 0, action: 'addHP', ammo: 0, canTake: true },
+
+  RADIATIONSUIT: { name: 'RADIATION SUIT', key: 'cards', frame: 20, hp: 0, addHP: 0, addCell: 0, action: 'addRad', ammo: 0, canTake: true },
+  SCANNER: { name: 'SCANNER', key: 'cards', frame: 21, hp: 0, addHP: 0, addCell: 0, action: 'addScanner', ammo: 0, canTake: true },
+  PORTAL: { name: 'PORTAL', key: 'cards', frame: 22, hp: 0, addHP: 0, addCell: 0, action: 'addPortal', ammo: 0, canTake: true },
+  CRATE: { name: 'CRATE', key: 'cards', frame: 7, hp: 0, addHP: 0, addCell: 0, action: 'collect', canTake: false },
+  //enemies
+  SCORPOID: { name: 'SCORPOID', key: 'scorpoid', frame: 1, hp: 1, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
   BEASTBOT: { name: 'BEASTBOT', key: 'beastbot', frame: 2, hp: 2, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
   SPIDERBOT: { name: 'SPIDERBOT', key: 'spiderbot', frame: 3, hp: 3, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
-  SCORPOID: { name: 'SCORPOID', key: 'scorpoid', frame: 1, hp: 1, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
   TROOPER: { name: 'TROOPER', key: 'trooper', frame: 4, hp: 4, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
+  SCAVBOT: { name: 'SCAVBOT', key: 'scavengerbot', frame: 5, hp: 5, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
+  REPTOID: { name: 'REPTOID', key: 'reptoid', frame: 6, hp: 6, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
+  DREADBOT: { name: 'DREADBOT', key: 'dreadbot', frame: 7, hp: 7, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
+  BEAST: { name: 'BEAST', key: 'beast', frame: 10, hp: 10, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
+  //instant damage
   EXPLOSION: { name: 'EXPLOSION', key: 'cards', frame: 8, hp: 1, addHP: 0, addCell: 0, action: 'explode', ammo: 0, canTake: false },
-  RADIATION: { name: 'RADIATION', key: 'cards', frame: 13, hp: 1, addHP: 0, addCell: 0, action: 'radiate', ammo: 0, canTake: false }
+  RADIATION: { name: 'RADIATION', key: 'cards', frame: 9, hp: 1, addHP: 0, addCell: 0, action: 'radiate', ammo: 0, canTake: false }
 }
 
 
@@ -140,6 +156,7 @@ class Card extends Phaser.GameObjects.Image {
         console.log('tap')
         if (this.faceDown == true) {
           this.flip('f')
+          playerData.cardsFlipped++
           if (playerData.power == 0) {
             playerData.hp -= 1
             this.scene.addHP()
@@ -172,8 +189,27 @@ class Card extends Phaser.GameObjects.Image {
                 this.useCard()
                 this.scene.doRadiate(this.x, this.y)
                 //this.scene.damagePlayer(1)
-                playerData.power = 1
-                this.scene.addPower()
+                if (playerData.armorRad) {
+                  playerData.armorRad = false
+                  this.scene.addRad()
+
+                } else {
+                  if (playerData.power > 0) {
+                    if (playerData.power == 1) {
+                      playerData.power = 0
+                      this.scene.addPower()
+                    } else {
+                      playerData.power = 1
+                      this.scene.addPower()
+                    }
+
+                  } else {
+                    this.scene.damagePlayer(1)
+                  }
+
+                  // this.scene.addRad()
+                }
+
               }
             })
 
@@ -181,7 +217,7 @@ class Card extends Phaser.GameObjects.Image {
           this.scene.testText.setText(cardTypes[this.type].name)
         } else {
           if (this.type == 'EXIT') {
-            this.scene.endSector()
+            this.scene.endSector(this.x, this.y)
           }
         }
 
@@ -225,6 +261,7 @@ class Card extends Phaser.GameObjects.Image {
           duration: 300,
           onComplete: () => {
             deck.cardContainer.sendToBack(card)
+            this.runScan()
             //this.scene.children.sendToBack(this.scene.starBack)
           }
         },
@@ -253,7 +290,9 @@ class Card extends Phaser.GameObjects.Image {
       ease: 'Linear',
       onComplete: () => {
         this.scene.addHandCard(slot, this.type)
+        this.runScan()
         this.destroy()
+
       }
     })
   }
@@ -267,10 +306,19 @@ class Card extends Phaser.GameObjects.Image {
       duration: 50,
       ease: 'Linear',
       onComplete: () => {
-
+        if (playerData.scanner && stack[stack.length - 1].faceDown) {
+          this.scene.doScan()
+        }
         this.destroy()
       }
     })
+  }
+  // ...
+  runScan() {
+    console.log(stack[stack.length - 1].faceDown)
+    if (playerData.scanner && stack[stack.length - 1].faceDown) {
+      this.scene.doScan()
+    }
   }
   // ...
   takeDamage() {

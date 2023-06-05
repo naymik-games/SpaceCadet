@@ -61,8 +61,22 @@ class UI extends Phaser.Scene {
       this.maxText.setAlpha(0)
     }
 
-
+    this.anims.create({
+      key: 'card_scan_anim',
+      frames: 'card_scan',
+      frameRate: 18,
+      repeat: 0
+    });
+    this.cardScans = this.add.group({
+      defaultKey: 'card_scan',
+      defaultFrame: 0,
+      maxSize: 5
+    });
     this.armorIcon = this.add.image(70, 238, 'armor_icons', playerData.armor).setScale(4.5)
+
+    this.radiateIcon = this.add.image(70, 335, 'armor_icons', 10).setScale(4.5).setAlpha(playerData.armorRad ? 1 : 0)//
+
+    // this.scannerIcon = this.add.sprite(70, 450, 'scanner', 7).setScale(3).setAlpha(playerData.scanner ? 1 : 0)//
 
     this.cautionContainer = this.add.container()
     this.cautionIcon = this.add.sprite(450, 190, 'caution').setScale(2)
@@ -94,6 +108,9 @@ class UI extends Phaser.Scene {
     this.Main.events.on('hp', function () {
 
       this.hpText.setText(playerData.hp)
+      if (playerData.hp <= 0) {
+        this.Main.endGameLose()
+      }
     }, this);
     /////////////////////////
     // UPDATE XP DISPLAY
@@ -114,7 +131,33 @@ class UI extends Phaser.Scene {
       this.armorIcon.setFrame(playerData.armor)
       this.Main.doSmallScan(this.armorIcon.x, this.armorIcon.y)
     }, this);
+    /////////////////////////
+    // UPDATE RADIATION SUIT DISPLAY
+    this.Main.events.on('updateRad', function (data) {
+      if (playerData.armorRad) {
+        this.radiateIcon.setAlpha(1)
+      } else {
+        this.radiateIcon.setAlpha(0)
+      }
 
+      this.Main.doSmallScan(this.radiateIcon.x, this.radiateIcon.y)
+    }, this);
+    /////////////////////////
+    // UPDATE SCANNER DISPLAY
+
+    this.Main.events.on('scanIcon', function (data) {
+
+      var cardscan = this.cardScans.get().setActive(true);
+      cardscan.setOrigin(0.5, 0.5).setScale(6).setDepth(1005).setAlpha(.4);
+      cardscan.setPosition(stack[stack.length - 1].x, stack[stack.length - 1].y)
+      cardscan.play('card_scan_anim')
+      cardscan.on('animationcomplete', function () {
+        cardscan.setActive(false);
+        cardscan.setAlpha(0)
+      }, this);
+
+      //this.Main.doSmallScan(this.radiateIcon.x, this.radiateIcon.y)
+    }, this);
     /////////////////////////
     // UPDATE POWER CELLS DISPLAY
     this.Main.events.on('power', function () {

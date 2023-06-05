@@ -22,7 +22,7 @@ window.onload = function () {
           quality: 0.1
         }
       }, */
-    scene: [preloadGame, startGame, playGame, UI]
+    scene: [preloadGame, startGame, playGame, UI, endGame]
   }
   game = new Phaser.Game(gameConfig);
   window.focus();
@@ -162,6 +162,18 @@ class playGame extends Phaser.Scene {
       frameRate: 12,
       repeat: 1
     });
+    this.anims.create({
+      key: 'door_anim',
+      frames: 'door_open',
+      frameRate: 10,
+      repeat: 0
+    });
+    this.anims.create({
+      key: 'scan_card',
+      frames: 'scan_warning',
+      frameRate: 6,
+      repeat: 2
+    });
     this.scan = this.add.sprite(game.config.width / 2, 700, 'scan', 0).setScale(3).setAlpha(.5).setDepth(1002)
     this.scan.play('scan')
     this.scan.on('animationcomplete', function () {
@@ -204,6 +216,16 @@ class playGame extends Phaser.Scene {
     });
     this.smallscans = this.add.group({
       defaultKey: 'smallscan',
+      defaultFrame: 0,
+      maxSize: 5
+    });
+    this.doors = this.add.group({
+      defaultKey: 'door_open',
+      defaultFrame: 0,
+      maxSize: 5
+    });
+    this.cardScans = this.add.group({
+      defaultKey: 'scan_warning',
       defaultFrame: 0,
       maxSize: 5
     });
@@ -258,9 +280,66 @@ class playGame extends Phaser.Scene {
     //this.saveGame()
 
   }
-  endSector() {
+  endGameLose() {
+    var endCard = this.add.image(game.config.width / 2, game.config.height / 2 - 100, 'cards', 23).setScale(6).setInteractive()
+    /*  .on('pointerup', function () {
+      
+     }) */
+    var timedEvent = this.time.addEvent({
+      delay: 2500, callback: function () {
+        modelBehavior.requestClose()
+      }, callbackScope: this, loop: false
+    });
+    var modelBehavior = this.plugins.get('rexmodalplugin').add(endCard, {
+      manualClose: true,
+      transitOut: function (gameObject, duration) {
+        var scene = gameObject.scene;
+        scene.tweens.add({
+          targets: gameObject,
+          duration: duration,
+          scale: 15,
+          alpha: .1
+        })
+      },
+      duration: {
+        in: 750,
+        out: 500
+      },
+
+      // destroy: false
+    })
+    endCard.setInteractive().on('pointerup', function () {
+      modelBehavior.requestClose()
+    })
+    modelBehavior.on('close', function (closeEventData) {
+      this.scene.stop('UI')
+      var starttween = this.tweens.add({
+        targets: this.top,
+        y: 0,
+        duration: 1000,
+        delay: 500
+      })
+      var starttween = this.tweens.add({
+        targets: this.bottom,
+        y: game.config.height,
+        duration: 1000,
+        delay: 500,
+        onComplete: () => {
+          // playerData.currentSector++
+          //this.saveGame()
+          //this.scene.restart()
+          this.scene.start('endGame')
+        }
+      })
+    }, this)
+  }
+  endSector(x, y) {
     //this.scene.pause()
-    this.scene.stop('UI')
+    if (playerData.scanner) {
+      playerData.scanner = false
+    }
+    this.doDoor(x, y)
+    /* this.scene.stop('UI')
     var starttween = this.tweens.add({
       targets: this.top,
       y: 0,
@@ -278,7 +357,7 @@ class playGame extends Phaser.Scene {
         this.scene.restart()
       }
     })
-
+ */
     //  this.scene.start('startGame')
 
   }
@@ -331,6 +410,7 @@ class playGame extends Phaser.Scene {
         this.saveGame()
         if (card.hp >= enemy.hp) {
           enemy.useCard()
+          playerData.enemiesKilled++
           playerData.xp += cardTypes[enemy.type].hp
           this.addXP()
         } else {
@@ -383,6 +463,21 @@ class playGame extends Phaser.Scene {
         playerData.hp = 0
         this.addHP()
       }
+    }
+
+  }
+  doScan() {
+    this.events.emit('scanIcon');
+    console.log(cardTypes[stack[stack.length - 1].type].action)
+    if (cardTypes[stack[stack.length - 1].type].action == 'attack') {
+      var cardscan = this.cardScans.get().setActive(true);
+      cardscan.setOrigin(0.5, 0.5).setScale(6).setDepth(1005).setAlpha(1);
+      cardscan.setPosition(stack[stack.length - 1].x, stack[stack.length - 1].y)
+      cardscan.play('scan_card')
+      cardscan.on('animationcomplete', function () {
+        cardscan.setActive(false);
+        cardscan.setAlpha(0)
+      }, this);
     }
 
   }
@@ -447,6 +542,36 @@ class playGame extends Phaser.Scene {
     sca.on('animationcomplete', function () {
       sca.setActive(false);
       sca.setAlpha(0)
+
+    }, this);
+  }
+  doDoor(x, y) {
+
+    var door = this.doors.get().setActive(true);
+    door.setOrigin(0.5, 0.5).setScale(6).setDepth(4).setAlpha(1);
+    door.setPosition(x, y)
+    door.play('door_anim')
+    door.on('animationcomplete', function () {
+      //sca.setActive(false);
+      this.scene.stop('UI')
+      var starttween = this.tweens.add({
+        targets: this.top,
+        y: 0,
+        duration: 1000,
+        delay: 500
+      })
+      var starttween = this.tweens.add({
+        targets: this.bottom,
+        y: game.config.height,
+        duration: 1000,
+        delay: 500,
+        onComplete: () => {
+          playerData.currentSector++
+          this.saveGame()
+          this.scene.restart()
+        }
+      })
+
 
     }, this);
   }
@@ -566,6 +691,10 @@ class playGame extends Phaser.Scene {
   addHP(amount) {
     this.events.emit('hp');
   }
+  addRad() {
+    this.events.emit('updateRad');
+  }
+
   addXP() {
     this.events.emit('updateXP');
   }

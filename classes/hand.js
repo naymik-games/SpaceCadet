@@ -46,9 +46,9 @@ class HandCard extends Phaser.GameObjects.Image {
       } else {
         //tap
         console.log('tap')
-        console.log('take action')
-        console.log(cardTypes[this.type].action)
-        console.log(cardTypes[stack[stack.length - 1].type].action)
+        // console.log('take action')
+        //console.log(cardTypes[this.type].action)
+        // console.log(cardTypes[stack[stack.length - 1].type].action)
         if (cardTypes[this.type].action == 'fight' && cardTypes[stack[stack.length - 1].type].action == 'collect') {
           console.log('collect crate')
           this.scene.collectCrate(stack[stack.length - 1], this)
@@ -61,6 +61,10 @@ class HandCard extends Phaser.GameObjects.Image {
           this.takePower()
         } else if (cardTypes[this.type].action == 'addHP') {
           this.takeHP()
+        } else if (cardTypes[this.type].action == 'addRad') {
+          this.takeRad()
+        } else if (cardTypes[this.type].action == 'addScanner') {
+          this.takeScanner()
         }
 
       }
@@ -98,6 +102,24 @@ class HandCard extends Phaser.GameObjects.Image {
       playerData.hp = playerData.hpMax
     }
     this.scene.addHP()
+    this.useCard()
+  }
+  takeScanner() {
+    playerData.scanner = true
+    if (playerData.scanner && stack[stack.length - 1].faceDown) {
+      this.scene.doScan()
+    }
+
+    this.useCard()
+  }
+  takeRad() {
+    /* playerData.hp += cardTypes[this.type].addHP
+    if (playerData.hp > playerData.hpMax) {
+      playerData.hp = playerData.hpMax
+    } */
+    playerData.armorRad = true
+    this.scene.addRad()
+
     this.useCard()
   }
   takePower() {

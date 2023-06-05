@@ -32,9 +32,13 @@ let playerDataDefault = {
   xpMax: 50,
   armor: 0,
   armorMax: 2,
+  armorRad: false,
+  scanner: false,
   currentSector: 0,
+  enemiesKilled: 0,
+  cardsFlipped: 0,
   rank: 1,
-  slots: [{ type: 'PISTOL2', ammo: 2 }, { type: 'MEDKIT2', ammo: 0 }, { type: 'RIFLE1', ammo: 1 }]
+  slots: [{ type: 'PISTOL2', ammo: 2 }, { type: 'MEDKIT3', ammo: 0 }, { type: 'RIFLE1', ammo: 1 }]
 }
 
 let gameSettings;
@@ -48,23 +52,23 @@ var defaultValues = {
 
 }
 let sectors = [
-  ['EMPTY', 'EMPTY', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'EXPLOSION'],
+  ['EMPTY', 'SCANNER', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'EXPLOSION'],
   ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
   ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
   ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION']
 ]
 let rankData = [
-  { name: 'CITIZEN', upgrade: null },
+  { name: 'CITIZEN', upgrade: null },//NOT USED
   { name: 'RECRUIT', upgrade: null },
   { name: 'CADET', upgrade: '+1 AROMOR MAX' },
   { name: 'PROBIE', upgrade: '+1 HP MAX' },
-  { name: 'BOOT', upgrade: 'null' },
-  { name: 'SARGE', upgrade: 'null' },
-  { name: 'TROOPER', upgrade: 'null' },
-  { name: 'VET', upgrade: 'null' },
-  { name: 'MARINE', upgrade: 'null' },
-  { name: 'RANGER', upgrade: 'null' },
-  { name: 'GENERAL', upgrade: 'null' },
+  { name: 'BOOT', upgrade: 'MACHINE GUN, +1 HP' },
+  { name: 'SARGE', upgrade: 'SCANNER, +1 AROMOR' },
+  { name: 'TROOPER', upgrade: 'ESCAPE, +1 HP, +2 Armor' },
+  { name: 'VET', upgrade: 'ROCKET LAUNCHER, +1 Armor' },
+  { name: 'MARINE', upgrade: 'BACKPACK' },
+  { name: 'RANGER', upgrade: ', +2 HP, +1 Armor' },
+  { name: 'GENERAL', upgrade: '+1 Armor' },
 
 ]
 //+1 armor , +1 hp, machine gun, rocket launcher, +2 armor, +2 hp, esape card, scanner, reserve slot
@@ -80,8 +84,8 @@ let tips = [
   'TAP A CARD TO FLIP',
   'SKIPPING AN EXPOSED ENEMY WILL ATTACK YOU',
   'EVERY CARD FLIP TAKES ONE POWER CELL',
-  'FLICK A CARD DOWN TO ADD IT TO YOUR HAND'
-
+  'FLICK A CARD DOWN TO ADD IT TO YOUR HAND',
+  'SKIPPED CARDS MOVE FACE UP TO THE BOTTOM OF THE DECK'
 ]
 
 

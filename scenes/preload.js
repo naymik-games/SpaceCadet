@@ -101,6 +101,18 @@ class preloadGame extends Phaser.Scene {
       spacing: 1,
       margin: 1
     });
+    this.load.spritesheet("scan_warning", "assets/sprites/scan_warning.png", {
+      frameWidth: 80,
+      frameHeight: 114,
+      spacing: 1,
+      margin: 1
+    });
+    this.load.spritesheet("card_scan", "assets/sprites/card_scan.png", {
+      frameWidth: 100,
+      frameHeight: 124,
+      spacing: 1,
+      margin: 1
+    });
     this.load.spritesheet("powerups", "assets/sprites/powerups.png", {
       frameWidth: 28,
       frameHeight: 28,
@@ -137,6 +149,18 @@ class preloadGame extends Phaser.Scene {
     this.load.spritesheet("explosion", "assets/sprites/144x44-explosions.png", {
       frameWidth: 144,
       frameHeight: 144,
+    });
+    this.load.spritesheet("door_open", "assets/sprites/door_open.png", {
+      frameWidth: 80,
+      frameHeight: 114,
+      spacing: 1,
+      margin: 1
+    });
+    this.load.spritesheet("scanner", "assets/sprites/scanner.png", {
+      frameWidth: 34,
+      frameHeight: 34,
+      spacing: 1,
+      margin: 1
     });
     // weapons//////////////////////
     this.load.spritesheet("rifle", "assets/sprites/weapons/rifle.png", {
