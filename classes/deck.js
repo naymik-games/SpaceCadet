@@ -2,6 +2,7 @@ let cardTypes = {
   //required
   EMPTY: { name: 'EMPTY ROOM', key: 'cards', frame: 3, hp: 0, addHP: 0, addCell: 0, action: null, canTake: false },
   EXIT: { name: 'EXIT', key: 'cards', frame: 4, hp: 0, addHP: 0, addCell: 0, action: 'end', canTake: false },
+  EXITL: { name: 'EXIT', key: 'cards', frame: 25, hp: 0, addHP: 0, addCell: 0, action: 'locked', canTake: false },
 
   //weapons
   RIFLE1: { name: 'RIFLE', key: 'rifle', frame: 1, hp: 3, addHP: 0, addCell: 0, action: 'fight', ammo: 1, canTake: true },
@@ -33,6 +34,7 @@ let cardTypes = {
   SCANNER: { name: 'SCANNER', key: 'cards', frame: 21, hp: 0, addHP: 0, addCell: 0, action: 'addScanner', ammo: 0, canTake: true },
   PORTAL: { name: 'PORTAL', key: 'cards', frame: 22, hp: 0, addHP: 0, addCell: 0, action: 'addPortal', ammo: 0, canTake: true },
   CRATE: { name: 'CRATE', key: 'cards', frame: 7, hp: 0, addHP: 0, addCell: 0, action: 'collect', canTake: false },
+  KEYCARD: { name: 'KEY CARD', key: 'cards', frame: 26, hp: 0, addHP: 0, addCell: 0, action: 'addKey', canTake: true },
   //enemies
   SCORPOID: { name: 'SCORPOID', key: 'scorpoid', frame: 1, hp: 1, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
   BEASTBOT: { name: 'BEASTBOT', key: 'beastbot', frame: 2, hp: 2, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
@@ -44,7 +46,8 @@ let cardTypes = {
   BEAST: { name: 'BEAST', key: 'beast', frame: 10, hp: 10, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
   //instant damage
   EXPLOSION: { name: 'EXPLOSION', key: 'cards', frame: 8, hp: 1, addHP: 0, addCell: 0, action: 'explode', ammo: 0, canTake: false },
-  RADIATION: { name: 'RADIATION', key: 'cards', frame: 9, hp: 1, addHP: 0, addCell: 0, action: 'radiate', ammo: 0, canTake: false }
+  RADIATION: { name: 'RADIATION', key: 'cards', frame: 9, hp: 1, addHP: 0, addCell: 0, action: 'radiate', ammo: 0, canTake: false },
+  BREACH: { name: 'HULL BREACH', key: 'cards', frame: 6, hp: 1, addHP: 0, addCell: 0, action: 'breach', ammo: 0, canTake: false }
 }
 
 

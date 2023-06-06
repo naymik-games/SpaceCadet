@@ -29,7 +29,7 @@ let playerDataDefault = {
   hpMax: 5,
   power: 10,
   xp: 0,
-  xpMax: 50,
+  xpMax: 30,
   armor: 0,
   armorMax: 2,
   armorRad: false,
@@ -52,38 +52,144 @@ var defaultValues = {
 
 }
 let sector = []
-let sectors = [
-  ['EMPTY', 'SCANNER', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SCORPOID', 'BATTERY', 'EXPLOSION'],
-  ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
-  ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
-  ['EMPTY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION']
-]
+/* let sectors = [
+  ['EMPTY', 'BATTERY', 'SCANNER', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SCORPOID', 'BATTERY', 'EXPLOSION'],
+  ['EMPTY', 'BATTERY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
+  ['EMPTY', 'BATTERY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION'],
+  ['EMPTY', 'BATTERY', 'EXIT', 'CRATE', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SPIDERBOT', 'BATTERY', 'RADIATION']
+] */
 //definately will appear per rank
 let rankFixed = [
   [null],
-  ['EMPTY', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SCORPOID', 'BATTERY', 'EXPLOSION'],
-  ['EMPTY', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR2', 'BEASTBOT', 'MEDKIT3', 'SCORPOID', 'BATTERY', 'EXPLOSION', 'ARMOR1', 'CRATE', 'RADIATION'],
-  ['EMPTY', 'EXIT',],
-  ['EMPTY', 'EXIT',],
-  ['EMPTY', 'EXIT',],
-  ['EMPTY', 'EXIT',],
-  ['EMPTY', 'EXIT',],
-  ['EMPTY', 'EXIT',],
-  ['EMPTY', 'EXIT',],
-  ['EMPTY', 'EXIT',],
+  ['EMPTY', 'EXIT', 'BATTERY'],
+  ['EMPTY', 'EXIT', 'BATTERY'],
+  ['EMPTY', 'EXIT', 'BATTERY'],
+  ['EMPTY', 'EXIT', 'BATTERY'],
+  ['EMPTY', 'EXIT', 'BATTERY'],
+  ['EMPTY', 'EXIT', 'BATTERY'],
+  ['EMPTY', 'EXIT', 'BATTERY'],
+  ['EMPTY', 'EXIT', 'BATTERY'],
+  ['EMPTY', 'EXIT', 'BATTERY'],
+  ['EMPTY', 'EXIT', 'BATTERY'],
 ]
 //enemies available per rank
 let rankEnemies = [
   [null],
-  ['SORPOID', 'BEASTBOT'],
-  ['SORPOID', 'BEASTBOT', 'SPIDERBOT'],
-  ['SORPOID', 'BEASTBOT', 'SPIDERBOT', 'TROOPER'],
-  ['BEASTBOT', 'SPIDERBOT', 'TROOPER', 'SCAVBOT'],
+  ['SCORPOID', 'BEASTBOT', 'SCORPOID', 'BEASTBOT'],
+  ['SCORPOID', 'BEASTBOT', 'SPIDERBOT', 'SPIDERBOT'],
+  ['SCORPOID', 'BEASTBOT', 'SPIDERBOT', 'TROOPER', 'BEASTBOT'],
+  ['BEASTBOT', 'SPIDERBOT', 'TROOPER', 'TROOPER', 'SCAVBOT'],
+  ['BEASTBOT', 'SPIDERBOT', 'TROOPER', 'SCAVBOT', 'TROOPER', 'SCAVBOT'],
+  ['BEASTBOT', 'SPIDERBOT', 'TROOPER', 'SCAVBOT', 'REPTOID', 'TROOPER', 'SCAVBOT'],
+  ['SPIDERBOT', 'TROOPER', 'SCAVBOT', 'REPTOID', 'DREADBOT', 'SCAVBOT', 'REPTOID', 'DREADBOT'],
+  ['SPIDERBOT', 'TROOPER', 'SCAVBOT', 'REPTOID', 'DREADBOT', 'SCAVBOT', 'REPTOID', 'DREADBOT'],
+  ['BEASTBOT', 'SPIDERBOT', 'TROOPER', 'SCAVBOT', 'REPTOID', 'DREADBOT', 'REPTOID', 'DREADBOT', 'REPTOID', 'DREADBOT'],
+  ['BEASTBOT', 'SPIDERBOT', 'TROOPER', 'SCAVBOT', 'REPTOID', 'DREADBOT', 'BEAST', 'SCAVBOT', 'REPTOID', 'DREADBOT', , 'SCAVBOT', 'REPTOID', 'DREADBOT',],
 ]
+
+let rankWeapons = [
+  [null],
+  ['KNIFE', 'GERNADE', 'PISTOL1', 'RIFLE1'],
+  ['KNIFE', 'GERNADE', 'PISTOL2', 'RIFLE1', 'SHOTGUN1'],
+  ['GERNADE', 'PISTOL2', 'RIFLE3', 'SHOTGUN2', 'RIFLE1'],
+  ['GERNADE', 'PISTOL2', 'MACHINEGUN', 'SHOTGUN2', 'RIFLE1']
+  ['GERNADE', 'PISTOL2', 'MACHINEGUN', 'SHOTGUN1', 'RIFLE3', 'RIFLE1'],
+  ['GERNADE', 'PISTOL1', 'MACHINEGUN', 'SHOTGUN2', 'RIFLE3', 'RIFLE1', 'KNIFE'],
+  ['GERNADE', 'PISTOL1', 'MACHINEGUN', 'SHOTGUN1', 'RIFLE3', 'RIFLE1', 'ROCKETLAUNCHER'],
+  ['GERNADE', 'PISTOL2', 'MACHINEGUN', 'SHOTGUN1', 'SHOTGUN2', 'RIFLE3', 'RIFLE1', 'BLASTERRIFLE'],
+  ['GERNADE', 'PISTOL2', 'MACHINEGUN', 'SHOTGUN1', 'SHOTGUN2', 'RIFLE1', 'RIFLE1', 'ROCKETLAUNCHER', 'BLASTERRIFLE'],
+  ['GERNADE', 'PISTOL2', 'MACHINEGUN', 'SHOTGUN2', 'SHOTGUN2', 'RIFLE3', 'RIFLE1', 'ROCKETLAUNCHER', 'BLASTERRIFLE']
+]
+
+let rankDamage = [
+  [null],
+  ['EXPLOSION'],
+  ['RADIATION'],
+  ['EXPLOSION', 'RADIATION'],
+  ['EXPLOSION', 'RADIATION'],
+  ['BREACH'],
+  ['EXPLOSION', 'BREACH'],
+  ['RADIATION', 'BREACH'],
+  ['RADIATION', 'BREACH', 'EXPLOSION'],
+  ['RADIATION', 'BREACH', 'EXPLOSION'],
+  ['RADIATION', 'BREACH', 'EXPLOSION'],
+]
+let rankPowerup = [
+  [null],
+  ['MEDKIT1', 'MEDKIT3', 'ARMOR1', 'MEDKIT1', 'MEDKIT3', 'ARMOR1'],
+  ['MEDKIT1', 'MEDKIT3', 'ARMOR1', 'ARMOR2', 'ARMOR3'],
+  ['MEDKIT1', 'MEDKIT3', 'MEDKIT5', 'ARMOR1', 'ARMOR2', 'ARMOR3'],
+  ['MEDKIT1', 'MEDKIT3', 'MEDKIT5', 'ARMOR1', 'ARMOR2', 'ARMOR3', 'ARMOR4'],
+  ['MEDKIT1', 'MEDKIT3', 'MEDKIT5', 'BATTERY', 'ARMOR1', 'ARMOR2', 'ARMOR3', 'ARMOR4'],
+  ['MEDKIT1', 'MEDKIT3', 'MEDKIT5', 'BATTERY', 'ARMOR1', 'ARMOR2', 'ARMOR3', 'ARMOR4'],
+  ['MEDKIT3', 'MEDKIT5', 'MEDKIT7', 'BATTERY', 'ARMOR1', 'ARMOR2', 'ARMOR3', 'ARMOR4'],
+  ['MEDKIT3', 'MEDKIT5', 'MEDKIT7', 'BATTERY', 'ARMOR1', 'ARMOR2', 'ARMOR3', 'ARMOR4'],
+  ['MEDKIT3', 'MEDKIT5', 'MEDKIT7', 'BATTERY', 'ARMOR1', 'ARMOR2', 'ARMOR3', 'ARMOR4', 'ARMOR5'],
+  ['MEDKIT1', 'MEDKIT3', 'MEDKIT5', 'MEDKIT7', 'MEDKIT10', 'BATTERY', 'ARMOR1', 'ARMOR2', 'ARMOR3', 'ARMOR4', 'ARMOR5', 'BATTERY'],
+]
+
+let rankExtras = [
+  [null],
+  [null],
+  ['CRATE'],
+  ['CRATE'],
+  ['CRATE'],
+  ['CRATE', 'SCANNER'],
+  ['CRATE', 'SCANNER', 'RADIATIONSUIT', 'PORTAL'],
+  ['CRATE', 'SCANNER', 'RADIATIONSUIT', 'PORTAL'],
+  ['CRATE', 'SCANNER', 'RADIATIONSUIT', 'PORTAL', 'KEYCARD'],
+  ['CRATE', 'SCANNER', 'RADIATIONSUIT', 'PORTAL', 'KEYCARD'],
+  ['RADIATIONSUIT', 'SCANNER', 'PORTAL', 'CRATE', 'KEYCARD']
+]
+
 function makeSector() {
   sector = JSON.parse(JSON.stringify(rankFixed[playerData.rank]));
-
+  //POPULATE ENEMIES
+  var enemyAmount = 2
+  var enemies = Phaser.Utils.Array.Shuffle(rankEnemies[playerData.rank])
+  for (let i = 0; i < enemyAmount; i++) {
+    const element = enemies[i];
+    sector.push(element)
+  }
+  //POPULATE WEAPONS
+  var weaponAmount = 2
+  var weapons = Phaser.Utils.Array.Shuffle(rankWeapons[playerData.rank])
+  for (let i = 0; i < weaponAmount; i++) {
+    const element = weapons[i];
+    sector.push(element)
+  }
+  //POPULATE DAMAGE
+  var damageAmount = 2
+  if (rankDamage[playerData.rank].length > 0) {
+    var damage = Phaser.Utils.Array.Shuffle(rankDamage[playerData.rank])
+    for (let i = 0; i < damageAmount; i++) {
+      if (damage[i]) {
+        const element = damage[i];
+        sector.push(element)
+      }
+    }
+  }
+  //POPULATE POWERUPS
+  var powerAmount = 2
+  var power = Phaser.Utils.Array.Shuffle(rankPowerup[playerData.rank])
+  for (let i = 0; i < powerAmount; i++) {
+    const element = power[i];
+    sector.push(element)
+  }
+  //POPULATE EXTRA
+  if (rankExtras[playerData.rank].length > 0) {
+    var extraAmount = 2
+    var extras = Phaser.Utils.Array.Shuffle(rankExtras[playerData.rank])
+    for (let i = 0; i < extraAmount; i++) {
+      if (extras[i]) {
+        const element = extras[i];
+        sector.push(element)
+      }
+    }
+  }
+  console.log(sector)
 }
+
 let rankData = [
   { name: 'CITIZEN', upgrade: null },//NOT USED
   { name: 'RECRUIT', upgrade: null },
@@ -93,8 +199,8 @@ let rankData = [
   { name: 'SARGE', upgrade: 'SCANNER, +1 AROMOR' },
   { name: 'TROOPER', upgrade: 'ESCAPE, +1 HP, +2 Armor' },
   { name: 'VET', upgrade: 'ROCKET LAUNCHER, +1 Armor' },
-  { name: 'MARINE', upgrade: 'BACKPACK' },
-  { name: 'RANGER', upgrade: ', +2 HP, +1 Armor' },
+  { name: 'MARINE', upgrade: 'BACKPACK, BLASTER RIFLE' },
+  { name: 'RANGER', upgrade: '+2 HP, +1 Armor' },
   { name: 'GENERAL', upgrade: '+1 Armor' },
 
 ]

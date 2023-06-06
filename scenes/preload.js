@@ -243,8 +243,62 @@ class preloadGame extends Phaser.Scene {
     this.load.image('star_back', 'assets/sprites/star_back.png');
     this.load.image('dialogue', 'assets/sprites/dialogue.png');
     this.load.plugin('rexmodalplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexmodalplugin.min.js', true);
+
   }
   create() {
+
+    this.anims.create({
+      key: 'crate_anim',
+      frames: 'crate_explode',
+      frameRate: 20,
+      repeat: 0
+    });
+    this.anims.create({
+      key: 'explode_anim',
+      frames: 'explosion',
+      frameRate: 8,
+      repeat: 0
+    });
+    this.anims.create({
+      key: 'radiate_anim',
+      frames: 'radiation',
+      frameRate: 8,
+      repeat: 0
+    });
+    this.anims.create({
+      key: 'scan_aromor',
+      frames: 'scan',
+      frameRate: 20,
+      repeat: 1
+    });
+    this.anims.create({
+      key: 'small_scan',
+      frames: 'smallscan',
+      frameRate: 12,
+      repeat: 1
+    });
+    this.anims.create({
+      key: 'door_anim',
+      frames: 'door_open',
+      frameRate: 10,
+      repeat: 0
+    });
+    this.anims.create({
+      key: 'scan_card',
+      frames: 'scan_warning',
+      frameRate: 6,
+      repeat: 2
+    });
+    this.anims.create({
+      key: 'card_scan_anim',
+      frames: 'card_scan',
+      frameRate: 18,
+      repeat: 0
+    });
+
+
+
+
     this.scene.start("startGame");
     //this.scene.start("PlayGame");
 

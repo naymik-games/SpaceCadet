@@ -5,54 +5,7 @@ class startGame extends Phaser.Scene {
   preload() {
     //this.load.bitmapFont('atari', 'assets/fonts/atari-smooth.png', 'assets/fonts/atari-smooth.xml');
     // this.load.bitmapFont('atari', 'assets/fonts/Lato_0.png', 'assets/fonts/lato.xml');
-    this.anims.create({
-      key: 'crate_anim',
-      frames: 'crate_explode',
-      frameRate: 20,
-      repeat: 0
-    });
-    this.anims.create({
-      key: 'explode_anim',
-      frames: 'explosion',
-      frameRate: 8,
-      repeat: 0
-    });
-    this.anims.create({
-      key: 'radiate_anim',
-      frames: 'radiation',
-      frameRate: 8,
-      repeat: 0
-    });
-    this.anims.create({
-      key: 'scan_aromor',
-      frames: 'scan',
-      frameRate: 20,
-      repeat: 1
-    });
-    this.anims.create({
-      key: 'small_scan',
-      frames: 'smallscan',
-      frameRate: 12,
-      repeat: 1
-    });
-    this.anims.create({
-      key: 'door_anim',
-      frames: 'door_open',
-      frameRate: 10,
-      repeat: 0
-    });
-    this.anims.create({
-      key: 'scan_card',
-      frames: 'scan_warning',
-      frameRate: 6,
-      repeat: 2
-    });
-    this.anims.create({
-      key: 'card_scan_anim',
-      frames: 'card_scan',
-      frameRate: 18,
-      repeat: 0
-    });
+
   }
   create() {
 

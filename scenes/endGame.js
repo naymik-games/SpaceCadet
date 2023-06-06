@@ -43,6 +43,7 @@ class endGame extends Phaser.Scene {
 		this.exitText.on('pointerdown', function () {
 			localStorage.removeItem('SaceCadetData');
 			playerData = null
+			playerData = playerDataDefault
 			this.scene.start('startGame')
 		}, this)
 
