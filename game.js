@@ -22,7 +22,7 @@ window.onload = function () {
           quality: 0.1
         }
       }, */
-    scene: [preloadGame, startGame, playGame, UI, endGame]
+    scene: [preloadGame, startGame, infoRank, playGame, UI, endGame]
   }
   game = new Phaser.Game(gameConfig);
   window.focus();

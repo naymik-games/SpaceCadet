@@ -30,7 +30,10 @@ class startGame extends Phaser.Scene {
 
     this.titlepText = this.add.text(game.config.width / 2, 220, 'SPACE\nCADET', { fontFamily: 'Gamer', fontSize: '240px', color: '#fafafa', align: 'center', shadow: { offsetX: 10, offsetY: 10, color: '#ff0000', blur: 0, stroke: false, fill: true } }).setOrigin(.5)//C6EFD8  backgroundColor: '#000000', padding: { left: 7, right: 7, top: 0, bottom: 15 }, fixedWidth: 350,
 
-    this.rankIcon = this.add.image(game.config.width / 2, 520, 'ranks', playerData.rank).setScale(8)
+    this.rankIcon = this.add.image(game.config.width / 2, 520, 'ranks', playerData.rank).setScale(8).setInteractive()
+    this.rankIcon.on('pointerdown', function () {
+      this.scene.start('infoRank')
+    }, this)
 
 
     //this.startTime = this.add.text(game.config.width / 2, 700, 'play', { fontFamily: 'KenneyMiniSquare', fontSize: '80px', color: '#fafafa', align: 'center', shadow: { offsetX: 10, offsetY: 10, color: '#ff0000', blur: 0, stroke: false, fill: true } }).setOrigin(.5)//C6EFD8  backgroundColor: '#000000', padding: { left: 7, right: 7, top: 0, bottom: 15 }, fixedWidth: 350,

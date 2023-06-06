@@ -193,10 +193,10 @@ function makeSector() {
 let rankData = [
   { name: 'CITIZEN', upgrade: null },//NOT USED
   { name: 'RECRUIT', upgrade: null },
-  { name: 'CADET', upgrade: '+1 AROMOR MAX' },
-  { name: 'PROBIE', upgrade: '+1 HP MAX' },
+  { name: 'CADET', upgrade: '+1 AROMOR' },
+  { name: 'PROBIE', upgrade: '+1 HP' },
   { name: 'BOOT', upgrade: 'MACHINE GUN, +1 HP' },
-  { name: 'SARGE', upgrade: 'SCANNER, +1 AROMOR' },
+  { name: 'SARGE', upgrade: 'SCANNER, +1 Armor' },
   { name: 'TROOPER', upgrade: 'ESCAPE, +1 HP, +2 Armor' },
   { name: 'VET', upgrade: 'ROCKET LAUNCHER, +1 Armor' },
   { name: 'MARINE', upgrade: 'BACKPACK, BLASTER RIFLE' },
