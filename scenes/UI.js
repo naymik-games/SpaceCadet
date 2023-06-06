@@ -61,12 +61,7 @@ class UI extends Phaser.Scene {
       this.maxText.setAlpha(0)
     }
 
-    this.anims.create({
-      key: 'card_scan_anim',
-      frames: 'card_scan',
-      frameRate: 18,
-      repeat: 0
-    });
+
     this.cardScans = this.add.group({
       defaultKey: 'card_scan',
       defaultFrame: 0,

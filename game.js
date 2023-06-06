@@ -38,7 +38,7 @@ class playGame extends Phaser.Scene {
   }
   preload() {
 
-    this.load.plugin('rexmodalplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexmodalplugin.min.js', true);
+    //this.load.plugin('rexmodalplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexmodalplugin.min.js', true);
 
   }
   create() {
@@ -134,50 +134,11 @@ class playGame extends Phaser.Scene {
        this.test1 = this.add.image(450, game.config.height / 2 + 500, 'cards', 2).setScale(2.5);
    
        this.test2 = this.add.image(675, game.config.height / 2 + 500, 'cards', 2).setScale(2.5); */
-    this.anims.create({
-      key: 'crate_anim',
-      frames: 'crate_explode',
-      frameRate: 20,
-      repeat: 0
-    });
-    this.anims.create({
-      key: 'explode_anim',
-      frames: 'explosion',
-      frameRate: 8,
-      repeat: 0
-    });
-    this.anims.create({
-      key: 'radiate_anim',
-      frames: 'radiation',
-      frameRate: 8,
-      repeat: 0
-    });
-    this.anims.create({
-      key: 'scan',
-      frames: 'scan',
-      frameRate: 20,
-      repeat: 1
-    });
-    this.anims.create({
-      key: 'small_scan',
-      frames: 'smallscan',
-      frameRate: 12,
-      repeat: 1
-    });
-    this.anims.create({
-      key: 'door_anim',
-      frames: 'door_open',
-      frameRate: 10,
-      repeat: 0
-    });
-    this.anims.create({
-      key: 'scan_card',
-      frames: 'scan_warning',
-      frameRate: 6,
-      repeat: 2
-    });
+    //////
+    //ANIMS HERE
+    /////
     this.scan = this.add.sprite(game.config.width / 2, 700, 'scan', 0).setScale(3).setAlpha(.5).setDepth(1002)
-    this.scan.play('scan')
+    this.scan.play('scan_aromor')
     this.scan.on('animationcomplete', function () {
       this.scan.setAlpha(0)
       var sectortween = this.tweens.add({
@@ -382,7 +343,7 @@ class playGame extends Phaser.Scene {
       card.setFrame(card.ammo)
       card.frameNumber = card.ammo
     }
-    this.saveGame()
+    //   this.saveGame()
     crate.type = 'EMPTY'
     crate.setFrame(cardTypes['EMPTY'].frame)
     this.doCrate(crate.x, crate.y)
@@ -409,7 +370,7 @@ class playGame extends Phaser.Scene {
           card.setFrame(card.ammo)
           card.frameNumber = card.ammo
         }
-        this.saveGame()
+        //  this.saveGame()
         if (card.hp >= enemy.hp) {
           enemy.useCard()
           playerData.enemiesKilled++
@@ -570,7 +531,8 @@ class playGame extends Phaser.Scene {
         onComplete: () => {
           playerData.currentSector++
           this.saveGame()
-          this.scene.restart()
+          this.scene.stop()
+          this.scene.start()
         }
       })
 
@@ -645,7 +607,7 @@ class playGame extends Phaser.Scene {
     if (playerData.rank == 2) {
       playerData.armorMax++
     }
-    this.saveGame()
+    //this.saveGame()
   }
   deal() {
     var length = deck.cards.length

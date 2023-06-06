@@ -163,6 +163,12 @@ class preloadGame extends Phaser.Scene {
       margin: 1
     });
     // weapons//////////////////////
+    this.load.spritesheet("blasterrifle", "assets/sprites/weapons/blasterrifle.png", {
+      frameWidth: 80,
+      frameHeight: 114,
+      spacing: 1,
+      margin: 1
+    });
     this.load.spritesheet("rifle", "assets/sprites/weapons/rifle.png", {
       frameWidth: 80,
       frameHeight: 114,
@@ -236,6 +242,7 @@ class preloadGame extends Phaser.Scene {
     this.load.image('caution', 'assets/sprites/256x32-power-critical.png')
     this.load.image('star_back', 'assets/sprites/star_back.png');
     this.load.image('dialogue', 'assets/sprites/dialogue.png');
+    this.load.plugin('rexmodalplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexmodalplugin.min.js', true);
   }
   create() {
     this.scene.start("startGame");
