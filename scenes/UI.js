@@ -65,7 +65,7 @@ class UI extends Phaser.Scene {
     this.cardScans = this.add.group({
       defaultKey: 'card_scan',
       defaultFrame: 0,
-      maxSize: 5
+      maxSize: -1
     });
     this.armorIcon = this.add.image(70, 238, 'armor_icons', playerData.armor).setScale(4.5)
 

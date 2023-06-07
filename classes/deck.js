@@ -110,9 +110,9 @@ class Card extends Phaser.GameObjects.Image {
     this.faceDown = true;
     this.setScale(6)
     this.cardScale = 6
-
-    this.setFrame(1)
     this.setInteractive()
+    this.setFrame(1)
+
 
     this.on("pointerup", this.endSwipe, this)
     /*     this.on("pointerdown", function () {
@@ -251,6 +251,7 @@ class Card extends Phaser.GameObjects.Image {
   moveToBottom() {
     var card = stack.pop()
     //console.log(card)
+
     stack.unshift(card)//sendToBack
     if (cardTypes[card.type].action == 'attack' && !card.faceDown) {
       this.scene.damagePlayer(card.hp)
@@ -266,6 +267,7 @@ class Card extends Phaser.GameObjects.Image {
           duration: 300,
           onComplete: () => {
             deck.cardContainer.sendToBack(card)
+
             this.runScan()
             //this.scene.children.sendToBack(this.scene.starBack)
           }
@@ -283,9 +285,10 @@ class Card extends Phaser.GameObjects.Image {
   }
   // ...
   takeCard(slot) {
-    stack.pop()
+    var card = stack.pop()
+
     this.scene.tweens.add({
-      targets: this,
+      targets: card,
       scaleY: 2.5,
       scaleX: 2.5,
       x: slots[slot].x,
@@ -296,16 +299,17 @@ class Card extends Phaser.GameObjects.Image {
       onComplete: () => {
         this.scene.addHandCard(slot, this.type)
         this.runScan()
-        this.destroy()
+        card.destroy()
+
 
       }
     })
   }
   //...
   useCard() {
-    stack.pop()
+    var card = stack.pop()
     this.scene.tweens.add({
-      targets: this,
+      targets: card,
       alpha: 0,
       delay: 0,
       duration: 50,
@@ -314,7 +318,8 @@ class Card extends Phaser.GameObjects.Image {
         if (playerData.scanner && stack[stack.length - 1].faceDown) {
           this.scene.doScan()
         }
-        this.destroy()
+        card.destroy()
+
       }
     })
   }

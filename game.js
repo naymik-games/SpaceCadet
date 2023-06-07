@@ -155,42 +155,42 @@ class playGame extends Phaser.Scene {
     this.statics = this.add.group({
       defaultKey: 'cards',
       defaultFrame: 0,
-      maxSize: 5
+      maxSize: -1
     });
     this.explodes = this.add.group({
       defaultKey: 'explosion',
       defaultFrame: 0,
-      maxSize: 5
+      maxSize: -1
     });
     this.radiates = this.add.group({
       defaultKey: 'radiation',
       defaultFrame: 0,
-      maxSize: 5
+      maxSize: -1
     });
     this.crates = this.add.group({
       defaultKey: 'crate_explode',
       defaultFrame: 0,
-      maxSize: 5
+      maxSize: -1
     });
     this.powerups = this.add.group({
       defaultKey: 'powerups',
       defaultFrame: 0,
-      maxSize: 5
+      maxSize: -1
     });
     this.smallscans = this.add.group({
       defaultKey: 'smallscan',
       defaultFrame: 0,
-      maxSize: 5
+      maxSize: -1
     });
     this.doors = this.add.group({
       defaultKey: 'door_open',
       defaultFrame: 0,
-      maxSize: 5
+      maxSize: -1
     });
     this.cardScans = this.add.group({
       defaultKey: 'scan_warning',
       defaultFrame: 0,
-      maxSize: 5
+      maxSize: -1
     });
     //this.main.on("pointerup", this.endSwipe, this);
     /* this.input.on("pointerdown", this.gemSelect, this);
@@ -199,6 +199,7 @@ class playGame extends Phaser.Scene {
     */
     //this.check = this.add.image(725, 1000, 'check').setScale(.7);
     this.addPower()
+    this.input.topOnly = true;
   }
   update() {
 
@@ -291,6 +292,7 @@ class playGame extends Phaser.Scene {
           // playerData.currentSector++
           //this.saveGame()
           //this.scene.restart()
+          this.scene.stop()
           this.scene.start('endGame')
         }
       })
@@ -626,6 +628,7 @@ class playGame extends Phaser.Scene {
 
 
     }
+
     this.canMove = true
   }
   saveGame() {
