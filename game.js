@@ -85,55 +85,6 @@ class playGame extends Phaser.Scene {
 
     deck = new Deck(this, this.cardScale)
 
-
-
-
-
-
-
-    /*  this.promotionModal = this.plugins.get('rexmodalplugin').add(this.box, {
-       cover: {
-         color: 0x0,
-         alpha: 0.8,
-         //     transitIn: function(gameObject, duration) { },
-         //     transitOut: function(gameObject, duration) { },
-       },
-       cover: true,
- 
-       // When to close modal dialog?
-       // touchOutsideClose: false,
-       anyTouchClose: true,
-       // timeOutClose: false,
-       // manualClose: false,
- 
-       // duration: {
-       //     in: 200,
-       //     hold: 2000,
-       //     out: 200
-       // }
- 
-       // transitIn: 0,
-       // transitOut: 0,
- 
-       destroy: true,
-       openOnStart: false
-     }); */
-
-
-
-
-
-
-
-
-
-
-
-    /*    this.test = this.add.image(225, game.config.height / 2 + 500, 'cards', 2).setScale(2.5);
-   
-       this.test1 = this.add.image(450, game.config.height / 2 + 500, 'cards', 2).setScale(2.5);
-   
-       this.test2 = this.add.image(675, game.config.height / 2 + 500, 'cards', 2).setScale(2.5); */
     //////
     //ANIMS HERE
     /////
@@ -213,12 +164,7 @@ class playGame extends Phaser.Scene {
       slots.push(slot)
     }
 
-    /*   for (let i = 0; i < 3; i++) {
-        var slot = this.add.image(225 + i * 225, game.config.height / 2 + 500, 'cards', 2).setScale(2.5);
-        slot.slot = i
-        slot.empty = true
-        slots.push(slot)
-      } */
+
 
     this.deal()
     /*     this.addHandCard(0, 'PISTOL2')
@@ -304,26 +250,7 @@ class playGame extends Phaser.Scene {
       playerData.scanner = false
     }
     this.doDoor(x, y)
-    /* this.scene.stop('UI')
-    var starttween = this.tweens.add({
-      targets: this.top,
-      y: 0,
-      duration: 1000,
-      delay: 500
-    })
-    var starttween = this.tweens.add({
-      targets: this.bottom,
-      y: game.config.height,
-      duration: 1000,
-      delay: 500,
-      onComplete: () => {
-        playerData.currentSector++
-        this.saveGame()
-        this.scene.restart()
-      }
-    })
- */
-    //  this.scene.start('startGame')
+
 
   }
   addHandCard(slot, type) {
@@ -647,7 +574,7 @@ class playGame extends Phaser.Scene {
 
 
     }
-    localStorage.setItem('SaceCadetData', JSON.stringify(playerData));
+    localStorage.setItem('SpaceCadetData', JSON.stringify(playerData));
   }
   addScore() {
     this.events.emit('score');

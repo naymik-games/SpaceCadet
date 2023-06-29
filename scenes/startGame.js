@@ -9,9 +9,9 @@ class startGame extends Phaser.Scene {
   }
   create() {
 
-    playerData = JSON.parse(localStorage.getItem('SaceCadetData'));
+    playerData = JSON.parse(localStorage.getItem('SpaceCadetData'));
     if (playerData === null || playerData.length <= 0) {
-      localStorage.setItem('SaceCadetData', JSON.stringify(playerDataDefault));
+      localStorage.setItem('SpaceCadetData', JSON.stringify(playerDataDefault));
       playerData = playerDataDefault;
     }
 
@@ -57,9 +57,9 @@ class startGame extends Phaser.Scene {
 
       this.startTime.setText('SECTOR ' + pad(1))
       this.rankIcon.setFrame(1)
-      localStorage.removeItem('SaceCadetData');
+      localStorage.removeItem('SpaceCadetData');
 
-      localStorage.setItem('SaceCadetData', JSON.stringify(playerDataDefault));
+      localStorage.setItem('SpaceCadetData', JSON.stringify(playerDataDefault));
       playerData = playerDataDefault;
 
     }, this)

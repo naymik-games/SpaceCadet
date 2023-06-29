@@ -41,9 +41,9 @@ class endGame extends Phaser.Scene {
 
 		this.exitText = this.add.text(game.config.width / 2, game.config.height / 2 + 550, 'EXIT', { fontFamily: 'Gamer', fontSize: '120px', color: '#fafafa', align: 'left' }).setOrigin(.5).setInteractive()//C6EFD8  backgroundColor: '#000000', padding: { left: 7, right: 7, top: 0, bottom: 15 }, fixedWidth: 350,
 		this.exitText.on('pointerdown', function () {
-			localStorage.removeItem('SaceCadetData');
+			localStorage.removeItem('SpaceCadetData');
 			playerData = null
-			playerData = playerDataDefault
+
 			this.scene.stop()
 			this.scene.start('startGame')
 		}, this)
