@@ -1,9 +1,7 @@
 let game;
-
+let slots = []
+let stack = []
 let deck
-let stack = []//main card stack
-let slots = []//blank hand slots
-let playerData
 
 window.onload = function () {
   let gameConfig = {
@@ -16,13 +14,7 @@ window.onload = function () {
       height: 1640
     },
     pixelArt: true,
-    /*   fx: {
-        glow: {
-          distance: 32,
-          quality: 0.1
-        }
-      }, */
-    scene: [preloadGame, startGame, infoRank, playGame, UI, endGame]
+    scene: [preloadGame, startGame, playGame, UI, endGame]
   }
   game = new Phaser.Game(gameConfig);
   window.focus();
@@ -38,24 +30,57 @@ class playGame extends Phaser.Scene {
   }
   preload() {
 
-    //this.load.plugin('rexmodalplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexmodalplugin.min.js', true);
 
   }
   create() {
-
-    makeSector()
+    deck = null
 
     this.canMove = false
+    this.cardScale = 6
+    makeSector()
+    console.log(sector)
     this.cameras.main.setBackgroundColor(0x000000);
     this.starBack = this.add.tileSprite(0, 0, 900, 1640, 'star_back').setOrigin(0)
-    // this.main = this.add.image(game.config.width / 2, game.config.height / 2 - 100, 'cards', 1).setInteractive().setScale(6);
-    //this.main.on("pointerdown", this.addScore, this);
-    this.hand = []
-    this.cardScale = 6
+
 
 
     this.top = this.add.image(0, 0, 'door_back', 0).setScale(4).setOrigin(0).setDepth(100)
     this.bottom = this.add.image(0, game.config.height, 'door_back', 1).setScale(4).setOrigin(0, 1).setDepth(100)
+
+
+    deck = new Deck(this, this.cardScale)
+    console.log(deck)
+
+    var sect = playerData.currentSector + 1
+    this.sectorText = this.add.text(game.config.width / 2, 700, 'SECTOR ' + pad(sect), { fontFamily: 'KenneyMiniSquare', fontSize: '80px', color: '#fafafa', align: 'left', shadow: { offsetX: 0, offsetY: -10, color: '#ff0000', blur: 0, stroke: false, fill: true } }).setOrigin(.5).setDepth(101).setAlpha(0)//C6EFD8  backgroundColor: '#000000', padding: { left: 7, right: 7, top: 0, bottom: 15 }, fixedWidth: 350,
+    var sectortween = this.tweens.add({
+      targets: this.sectorText,
+      alpha: 1,
+      duration: 500,
+      delay: 300,
+      // yoyo: true
+      onComplete: () => {
+        this.openLevel()
+      }
+    })
+    this.scan = this.add.sprite(game.config.width / 2, 700, 'scan', 0).setScale(3).setAlpha(.5).setDepth(1002)
+    this.scan.play('scan_anim')
+    this.scan.on('animationcomplete', function () {
+      this.scan.setAlpha(0)
+      var sectortween = this.tweens.add({
+        targets: [this.sectorText, this.scan],
+        alpha: 0,
+        duration: 500,
+        delay: 300,
+
+      })
+    }, this);
+
+  }
+  update() {
+
+  }
+  openLevel() {
     var starttween = this.tweens.add({
       targets: this.top,
       y: -820,
@@ -71,188 +96,6 @@ class playGame extends Phaser.Scene {
         this.setGame()
       }
     })
-    var sect = playerData.currentSector + 1
-    this.sectorText = this.add.text(game.config.width / 2, 700, 'SECTOR ' + pad(sect), { fontFamily: 'KenneyMiniSquare', fontSize: '80px', color: '#fafafa', align: 'left', shadow: { offsetX: 0, offsetY: -10, color: '#ff0000', blur: 0, stroke: false, fill: true } }).setOrigin(.5).setDepth(101).setAlpha(0)//C6EFD8  backgroundColor: '#000000', padding: { left: 7, right: 7, top: 0, bottom: 15 }, fixedWidth: 350,
-    var sectortween = this.tweens.add({
-      targets: this.sectorText,
-      alpha: 1,
-      duration: 100,
-      delay: 300,
-     // yoyo: true
-      /*  onComplete: () => {
-         this.setGame()
-       } */
-    })
-
-    deck = new Deck(this, this.cardScale)
-
-    //////
-    //ANIMS HERE
-    /////
-    this.scan = this.add.sprite(game.config.width / 2, 700, 'scan', 0).setScale(3).setAlpha(.5).setDepth(1002)
-    this.scan.play('scan_aromor')
-    this.scan.on('animationcomplete', function () {
-      this.scan.setAlpha(0)
-      var sectortween = this.tweens.add({
-        targets: this.sectorText,
-        alpha: 0,
-        duration: 500,
-        delay: 300,
-        /*  onComplete: () => {
-           this.setGame()
-         } */
-      })
-    }, this);
-
-    this.statics = this.add.group({
-      defaultKey: 'cards',
-      defaultFrame: 0,
-      maxSize: -1
-    });
-    this.explodes = this.add.group({
-      defaultKey: 'explosion',
-      defaultFrame: 0,
-      maxSize: -1
-    });
-    this.radiates = this.add.group({
-      defaultKey: 'radiation',
-      defaultFrame: 0,
-      maxSize: -1
-    });
-    this.crates = this.add.group({
-      defaultKey: 'crate_explode',
-      defaultFrame: 0,
-      maxSize: -1
-    });
-    this.powerups = this.add.group({
-      defaultKey: 'powerups',
-      defaultFrame: 0,
-      maxSize: -1
-    });
-    this.smallscans = this.add.group({
-      defaultKey: 'smallscan',
-      defaultFrame: 0,
-      maxSize: -1
-    });
-    this.doors = this.add.group({
-      defaultKey: 'door_open',
-      defaultFrame: 0,
-      maxSize: -1
-    });
-    this.cardScans = this.add.group({
-      defaultKey: 'scan_warning',
-      defaultFrame: 0,
-      maxSize: -1
-    });
-    //this.main.on("pointerup", this.endSwipe, this);
-    /* this.input.on("pointerdown", this.gemSelect, this);
-     this.input.on("pointermove", this.drawPath, this);
-     this.input.on("pointerup", this.removeGems, this);
-    */
-    //this.check = this.add.image(725, 1000, 'check').setScale(.7);
-    this.addPower()
-    this.input.topOnly = true;
-  }
-  update() {
-
-  }
-  setGame() {
-    this.testText = this.add.text(game.config.width / 2, 250, '05', { fontFamily: 'KenneyMiniSquare', fontSize: '80px', color: '#fafafa', align: 'left' }).setOrigin(.5).setAlpha(0)//C6EFD8  backgroundColor: '#000000', padding: { left: 7, right: 7, top: 0, bottom: 15 }, fixedWidth: 350,
-    for (let i = 0; i < 3; i++) {
-      var slot = this.add.image(225 + i * 225, game.config.height / 2 + 500, 'cards', 2).setScale(2.5);
-      slot.slot = i
-      slot.empty = true
-      slots.push(slot)
-    }
-
-
-
-    this.deal()
-    /*     this.addHandCard(0, 'PISTOL2')
-        this.addHandCard(1, 'MEDKIT2') */
-    console.log(playerData.slots)
-    for (let i = 0; i < 3; i++) {
-      const spot = playerData.slots[i];
-      console.log(spot)
-      if (spot.type != null) {
-        this.addHandCard(i, spot.type)
-        if (spot.ammo > 0) {
-          deck.hand[i].ammo = spot.ammo
-          deck.hand[i].setFrame(spot.ammo)
-        }
-
-      }
-    }
-
-    this.scene.launch('UI');
-    console.log(playerData)
-    this.events.emit('updateVest');
-    this.events.emit('power')
-    //this.saveGame()
-
-  }
-  endGameLose() {
-    var endCard = this.add.image(game.config.width / 2, game.config.height / 2 - 100, 'cards', 23).setScale(6).setInteractive()
-    /*  .on('pointerup', function () {
-      
-     }) */
-    var timedEvent = this.time.addEvent({
-      delay: 2500, callback: function () {
-        modelBehavior.requestClose()
-      }, callbackScope: this, loop: false
-    });
-    var modelBehavior = this.plugins.get('rexmodalplugin').add(endCard, {
-      manualClose: true,
-      transitOut: function (gameObject, duration) {
-        var scene = gameObject.scene;
-        scene.tweens.add({
-          targets: gameObject,
-          duration: duration,
-          scale: 15,
-          alpha: .1
-        })
-      },
-      duration: {
-        in: 750,
-        out: 500
-      },
-
-      // destroy: false
-    })
-    endCard.setInteractive().on('pointerup', function () {
-      modelBehavior.requestClose()
-    })
-    modelBehavior.on('close', function (closeEventData) {
-      this.scene.stop('UI')
-      var starttween = this.tweens.add({
-        targets: this.top,
-        y: 0,
-        duration: 1000,
-        delay: 500
-      })
-      var starttween = this.tweens.add({
-        targets: this.bottom,
-        y: game.config.height,
-        duration: 1000,
-        delay: 500,
-        onComplete: () => {
-          // playerData.currentSector++
-          //this.saveGame()
-          //this.scene.restart()
-          this.scene.stop()
-          this.scene.start('endGame')
-        }
-      })
-    }, this)
-  }
-  endSector(x, y) {
-    //this.scene.pause()
-    if (playerData.scanner) {
-      playerData.scanner = false
-    }
-    this.doDoor(x, y)
-
-
   }
   addHandCard(slot, type) {
     console.log(slot)
@@ -274,8 +117,8 @@ class playGame extends Phaser.Scene {
       card.frameNumber = card.ammo
     }
     //   this.saveGame()
-    crate.type = 'EMPTY'
-    crate.setFrame(cardTypes['EMPTY'].frame)
+    crate.type = 'EMPTYCRATE'
+    crate.setFrame(cardTypes['EMPTYCRATE'].frame)
     this.doCrate(crate.x, crate.y)
   }
   doBattle(enemy, card) {
@@ -317,14 +160,7 @@ class playGame extends Phaser.Scene {
 
   }
   damagePlayer(amount) {
-    /*    let playerDataDefault = {
-         sector: 1,
-         hp: 5,
-         power: 10,
-         xp: 0,
-         xpMax: 50,
-         armor: 0
-       } */
+
     this.cameras.main.shake(200, 0.02)
     if (playerData.armor > 0) {
       if (playerData.armor >= amount) {
@@ -336,16 +172,6 @@ class playGame extends Phaser.Scene {
         this.addVest()
       }
     }
-    /*  if (playerData.power >= amount && amount > 0) {
-       if (playerData.power >= amount) {
-         playerData.power -= amount
-         this.addPower()
-       } else {
-         amount -= playerData.power
-         playerData.power = 0
-         this.addPower()
-       }
-     } */
 
     if (playerData.hp >= amount && amount > 0) {
       if (playerData.hp >= amount) {
@@ -359,90 +185,45 @@ class playGame extends Phaser.Scene {
     }
 
   }
-  doScan() {
-    this.events.emit('scanIcon');
-    console.log(cardTypes[stack[stack.length - 1].type].action)
-    if (cardTypes[stack[stack.length - 1].type].action == 'attack') {
-      var cardscan = this.cardScans.get().setActive(true);
-      cardscan.setOrigin(0.5, 0.5).setScale(6).setDepth(1005).setAlpha(1);
-      cardscan.setPosition(stack[stack.length - 1].x, stack[stack.length - 1].y)
-      cardscan.play('scan_card')
-      cardscan.on('animationcomplete', function () {
-        cardscan.setActive(false);
-        cardscan.setAlpha(0)
-      }, this);
-    }
+  doExplosion() {
+    this.cameras.main.flash();
+
+    this.explosionCard.play('explode_anim')
 
   }
+  doBreach() {
+    this.cameras.main.flash();
+
+    this.breachCard.play('breach_anim')
+
+  }
+  doRadiate() {
+    this.cameras.main.flash();
+
+    this.radiateCard.play('radiate_anim')
+
+  }
+
   doStatic(x, y) {
-    var staticanim = this.statics.get().setActive(true);
-    staticanim.setOrigin(0.5, 0.5).setScale(6).setDepth(3).setAlpha(.3);
-    staticanim.setPosition(x, y)
+
+    this.static.setAlpha(.3);
+
     var tween = this.tweens.add({
-      targets: staticanim,
+      targets: this.static,
       x: '+=5',
       y: '+=50',
-      alpha: .0,
+      alpha: 0,
       yoyo: true,
       repeat: 3,
-      duration: 25,
+      duration: 75,
       onComplete: () => {
-        staticanim.setActive(false);
-        staticanim.setAlpha(0)
+        this.static.setAlpha(0)
       }
     })
   }
-  doExplosion(x, y) {
-    this.cameras.main.flash();
-    var exp = this.explodes.get().setActive(true);
-    exp.setOrigin(0.5, 0.5).setScale(6).setDepth(3).setAlpha(1);
-    exp.setPosition(x, y)
-    exp.play('explode_anim')
-    exp.on('animationcomplete', function () {
-      exp.setActive(false);
-      exp.setAlpha(0)
-    }, this);
-  }
-  doRadiate(x, y) {
-    this.cameras.main.flash();
-    var rad = this.radiates.get().setActive(true);
-    rad.setOrigin(0.5, 0.5).setScale(17).setDepth(3).setAlpha(1);
-    rad.setPosition(x, y)
-    rad.play('radiate_anim')
-    rad.on('animationcomplete', function () {
-      rad.setActive(false);
-      rad.setAlpha(0)
-    }, this);
-  }
-  doCrate(x, y) {
-    this.cameras.main.flash();
-    var cra = this.crates.get().setActive(true);
-    cra.setOrigin(0.5, 0.5).setScale(8).setDepth(3).setAlpha(1);
-    cra.setPosition(x, y)
-    cra.play('crate_anim')
-    cra.on('animationcomplete', function () {
-      cra.setActive(false);
-      cra.setAlpha(0)
-      this.doPowerup(x, y)
-    }, this);
-  }
-  doSmallScan(x, y) {
-
-    var sca = this.smallscans.get().setActive(true);
-    sca.setOrigin(0.5, 0.5).setScale(4).setDepth(4).setAlpha(1);
-    sca.setPosition(x, y)
-    sca.play('small_scan')
-    sca.on('animationcomplete', function () {
-      sca.setActive(false);
-      sca.setAlpha(0)
-
-    }, this);
-  }
   doDoor(x, y) {
+    var door = this.add.sprite(x, y, 'door_open', 0).setScale(6).setDepth(4)
 
-    var door = this.doors.get().setActive(true);
-    door.setOrigin(0.5, 0.5).setScale(6).setDepth(4).setAlpha(1);
-    door.setPosition(x, y)
     door.play('door_anim')
     door.on('animationcomplete', function () {
       //sca.setActive(false);
@@ -468,50 +249,6 @@ class playGame extends Phaser.Scene {
 
 
     }, this);
-  }
-  doPowerup(x, y) {
-    var rand = Phaser.Math.Between(0, 2)
-    var pu = this.powerups.get().setActive(true);
-    pu.setOrigin(0.5, 0.5).setScale(6).setDepth(3).setAlpha(1);
-    pu.setPosition(x, y).setFrame(rand)
-    var tween = this.tweens.add({
-      targets: pu,
-      y: '-= 150',
-      scale: 8,
-      // y: 550 + row * 50,
-      duration: 300,
-      delay: 100,
-      onComplete: () => {
-        if (rand == 0) {
-          playerData.armor += 2
-          if (playerData.armor > playerData.armorMax) {
-            playerData.armor = playerData.armorMax
-          }
-          this.addVest()
-        } else if (rand == 1) {
-          playerData.hp += 3
-          if (playerData.hp > playerData.hpMax) {
-            playerData.hp = playerData.hpMax
-          }
-          this.addHP()
-        } else {
-          playerData.power += 3
-          if (playerData.power > 10) {
-            playerData.power = 10
-          }
-          this.addPower()
-        }
-        var tween2 = this.tweens.add({
-          targets: pu,
-          alpha: 0,
-          duration: 300,
-          delay: 200,
-          onComplete: () => {
-            pu.setActive(false);
-          }
-        });
-      }
-    });
   }
   doRank() {
     var container = this.add.container(game.config.width / 2, game.config.height / 2)
@@ -539,6 +276,138 @@ class playGame extends Phaser.Scene {
     }
     //this.saveGame()
   }
+  doCrate(x, y) {
+    this.cameras.main.flash();
+    this.crateCard.play('crate_anim')
+    this.crateCard.on('animationcomplete', function () {
+
+      this.doPowerup(x, y)
+    }, this);
+  }
+  doPowerup(x, y) {
+    var rand = Phaser.Math.Between(0, 2)
+
+    this.powerupCard.setScale(6).setDepth(3).setAlpha(1).setFrame(rand);
+
+    var tween = this.tweens.add({
+      targets: this.powerupCard,
+      //y: '-= 150',
+      scale: 17,
+      // y: 550 + row * 50,
+      duration: 300,
+      delay: 100,
+      onComplete: () => {
+        if (rand == 0) {
+          playerData.armor += 2
+          if (playerData.armor > playerData.armorMax) {
+            playerData.armor = playerData.armorMax
+          }
+          this.statusText.setText('FOUND ARMOR')
+          this.addVest()
+        } else if (rand == 1) {
+          playerData.hp += 3
+          if (playerData.hp > playerData.hpMax) {
+            playerData.hp = playerData.hpMax
+          }
+          this.statusText.setText('FOUND HP')
+          this.addHP()
+        } else {
+          playerData.power += 3
+          if (playerData.power > 10) {
+            playerData.power = 10
+          }
+          this.statusText.setText('FOUND POWER')
+          this.addPower()
+        }
+        var tween2 = this.tweens.add({
+          targets: this.powerupCard,
+          alpha: 0,
+          duration: 300,
+          delay: 700,
+          onComplete: () => {
+
+          }
+        });
+      }
+    });
+  }
+  // END GAME ////////////////////////////////////////
+  endGameLose() {
+    this.scene.stop('UI')
+    var starttween = this.tweens.add({
+      targets: this.top,
+      y: 0,
+      duration: 1000,
+      delay: 1000
+    })
+    var starttween = this.tweens.add({
+      targets: this.bottom,
+      y: game.config.height,
+      duration: 1000,
+      delay: 1000,
+      onComplete: () => {
+        this.closeDoors()
+      }
+    })
+
+
+
+
+
+  }
+  closeDoors() {
+    this.sectorText.setAlpha(1)
+    this.sectorText.setText('GAME OVER')
+    this.scan.setAlpha(1)
+    this.scan.play('scan_anim')
+    var sectortween = this.tweens.add({
+      targets: [this.sectorText, this.scan],
+      alpha: 0,
+      duration: 500,
+      delay: 2000,
+      // yoyo: true
+      onComplete: () => {
+
+
+        this.scene.stop()
+        this.scene.start('endGame')
+      }
+    })
+  }
+  // GAME SET UP////////////////////////////////////////
+  setGame() {
+    this.statusText = this.add.text(game.config.width / 2, 275, '', { fontFamily: 'KenneyMiniSquare', fontSize: '70px', color: '#607AB4', align: 'left' }).setOrigin(.5).setAlpha(1)//C6EFD8  backgroundColor: '#000000', padding: { left: 7, right: 7, top: 0, bottom: 15 }, fixedWidth: 350,
+    //slot images
+    for (let i = 0; i < 3; i++) {
+      var slot = this.add.image(225 + i * 225, game.config.height / 2 + 500, 'cards', 2).setScale(2.5);
+      slot.slot = i
+      slot.empty = true
+      slots.push(slot)
+    }
+    if (playerData.backPack) {
+      var slot = this.add.image(game.config.width - 100, game.config.height / 2 + 140, 'cards', 2).setScale(2).setOrigin(.5);
+    }
+
+    this.deal()
+    //fill slots with player items
+    for (let i = 0; i < 3; i++) {
+      const spot = playerData.slots[i];
+      console.log(spot)
+      if (spot.type != null) {
+        this.addHandCard(i, spot.type)
+        if (spot.ammo > 0) {
+          deck.hand[i].ammo = spot.ammo
+          deck.hand[i].setFrame(spot.ammo)
+        }
+
+      }
+    }
+    console.log(deck.hand)//the card itself
+    console.log(slots) //slot image and 
+    this.scene.launch('UI');
+    //this.events.emit('updateVest');
+    this.events.emit('power')
+  }
   deal() {
     var length = deck.cards.length
     for (let i = 0; i < length; i++) {
@@ -555,10 +424,18 @@ class playGame extends Phaser.Scene {
       });
 
 
+
     }
+    this.explosionCard = this.add.sprite(game.config.width / 2, game.config.height / 2 - 100, 'explosion', 0).setScale(6).setDepth(3);
+    this.static = this.add.sprite(game.config.width / 2, game.config.height / 2 - 100, 'cards', 0).setScale(6).setDepth(3).setAlpha(0);
+    this.radiateCard = this.add.sprite(game.config.width / 2, game.config.height / 2 - 100, 'radiation', 11).setScale(17).setDepth(3);
+    this.breachCard = this.add.sprite(game.config.width / 2, game.config.height / 2 - 100, 'breach', 9).setScale(10).setDepth(3);
+    this.crateCard = this.add.sprite(game.config.width / 2, game.config.height / 2 - 100, 'crate_explode', 7).setScale(17).setDepth(3);
+    this.powerupCard = this.add.sprite(game.config.width / 2, game.config.height / 2 - 100, 'powerups', 7).setScale(17).setDepth(3).setAlpha(0);
 
     this.canMove = true
   }
+  // SAVE GAME //////////////////////////////////
   saveGame() {
     // {type: type, ammo: , frame: }
     console.log(deck.hand)
@@ -577,9 +454,7 @@ class playGame extends Phaser.Scene {
     }
     localStorage.setItem('SpaceCadetData', JSON.stringify(playerData));
   }
-  addScore() {
-    this.events.emit('score');
-  }
+  // UI EVENTS /////////////////////////////////////////
   addPower() {
     this.events.emit('power');
   }
@@ -595,5 +470,11 @@ class playGame extends Phaser.Scene {
   }
   addVest(amount) {
     this.events.emit('updateVest');
+  }
+  addVest(amount) {
+    this.events.emit('updateVest');
+  }
+  addScore() {
+    this.events.emit('score');
   }
 }
