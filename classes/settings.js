@@ -11,26 +11,15 @@ loadFont("KenneyMiniSquare", "assets/fonts/KenneyMiniSquare.ttf");
 loadFont("Gamer", "assets/fonts/Gamer.ttf");
 
 
-let gameOptions = {
-  gemSize: 100,
-  fallSpeed: 100,
-  destroySpeed: 200,
-  offsetX: 50,
-  offsetY: 250,
-  gameMode: 'time', //moves, challenge
-  defaultTime: 60,
-
-
-
-}
+let playerData
 let playerDataDefault = {
   sector: 1,
   hp: 5,
   hpMax: 5,
   power: 10,
-  xp: 28,
-  xpMax: 30,
-  armor: 0,
+  xp: 0,
+  xpMax: 15,
+  armor: 2,
   armorMax: 2,
   armorRad: false,
   scanner: false,
@@ -38,19 +27,12 @@ let playerDataDefault = {
   enemiesKilled: 0,
   cardsFlipped: 0,
   rank: 1,
-  slots: [{ type: 'PISTOL2', ammo: 2 }, { type: 'MEDKIT3', ammo: 0 }, { type: 'RIFLE1', ammo: 1 }]
+  slots: [{ type: 'PISTOL2', ammo: 2 }, { type: 'MEDKIT3', ammo: 0 }, { type: 'RIFLE1', ammo: 1 }],
+  backPackSlot: [null],
+  backPack: false
 }
 
-let gameSettings;
-var defaultValues = {
-  mostDotsMoves: 0,
-  mostDotsTime: 0,
-  levelStatus: [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  totalSquares: 0,
-  group: 0,
-  currentLevel: 0
 
-}
 let sector = []
 /* let sectors = [
   ['EMPTY', 'BATTERY', 'SCANNER', 'EXIT', 'RIFLE3', 'PISTOL2', 'ARMOR3', 'ARMOR1', 'BEASTBOT', 'MEDKIT3', 'SCORPOID', 'BATTERY', 'EXPLOSION'],
@@ -103,7 +85,7 @@ let rankWeapons = [
 
 let rankDamage = [
   [null],
-  ['EXPLOSION'],
+  ['BREACH'], //['EXPLOSION'],
   ['RADIATION'],
   ['EXPLOSION', 'RADIATION'],
   ['EXPLOSION', 'RADIATION'],
@@ -130,7 +112,7 @@ let rankPowerup = [
 
 let rankExtras = [
   [null],
-  [null],
+  [null],//null
   ['CRATE'],
   ['CRATE'],
   ['CRATE'],
@@ -187,7 +169,7 @@ function makeSector() {
       }
     }
   }
-  console.log(sector)
+
 }
 
 let rankData = [

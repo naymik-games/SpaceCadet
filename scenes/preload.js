@@ -74,21 +74,8 @@ class preloadGame extends Phaser.Scene {
 
 
     //this.load.image("particle", "assets/sprites/particle.png");
+    this.load.bitmapFont('topaz', 'assets/fonts/topaz.png', 'assets/fonts/topaz.xml');
 
-
-
-
-
-    this.load.spritesheet("cell", "assets/sprites/cell.png", {
-      frameWidth: 35,
-      frameHeight: 35
-    });
-    this.load.spritesheet("armor_icons", "assets/sprites/armor_icons.png", {
-      frameWidth: 16,
-      frameHeight: 17,
-      spacing: 1,
-      margin: 1
-    });
     this.load.spritesheet("door_back", "assets/sprites/door_back.png", {
       frameWidth: 225,
       frameHeight: 225,
@@ -101,23 +88,9 @@ class preloadGame extends Phaser.Scene {
       spacing: 1,
       margin: 1
     });
-    this.load.spritesheet("scan_warning", "assets/sprites/scan_warning.png", {
-      frameWidth: 80,
-      frameHeight: 114,
-      spacing: 1,
-      margin: 1
-    });
-    this.load.spritesheet("card_scan", "assets/sprites/card_scan.png", {
-      frameWidth: 100,
-      frameHeight: 124,
-      spacing: 1,
-      margin: 1
-    });
-    this.load.spritesheet("powerups", "assets/sprites/powerups.png", {
-      frameWidth: 28,
-      frameHeight: 28,
-      spacing: 1,
-      margin: 1
+    this.load.spritesheet("cell", "assets/sprites/cell.png", {
+      frameWidth: 35,
+      frameHeight: 35
     });
     this.load.spritesheet("ranks", "assets/sprites/ranks.png", {
       frameWidth: 16,
@@ -125,30 +98,31 @@ class preloadGame extends Phaser.Scene {
       spacing: 1,
       margin: 1
     });
-    this.load.spritesheet("scan", "assets/sprites/scan.png", {
-      frameWidth: 200,
-      frameHeight: 50,
+    this.load.spritesheet("armor_icons", "assets/sprites/armor_icons.png", {
+      frameWidth: 16,
+      frameHeight: 17,
+      spacing: 1,
+      margin: 1
     });
     this.load.spritesheet("smallscan", "assets/sprites/smallscan.png", {
       frameWidth: 24,
       frameHeight: 24,
     });
- /*    this.load.spritesheet("scan", "assets/sprites/68x68-scanFlash-2.png", {
-      frameWidth: 68,
-      frameHeight: 68,
-    }) */;
-
-    this.load.spritesheet("crate_explode", "assets/sprites/crate_explode.png", {
-      frameWidth: 32,
-      frameHeight: 32,
+    this.load.spritesheet("explosion", "assets/sprites/144x44-explosions.png", {
+      frameWidth: 144,
+      frameHeight: 144,
     });
     this.load.spritesheet("radiation", "assets/sprites/radiation.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
-    this.load.spritesheet("explosion", "assets/sprites/144x44-explosions.png", {
-      frameWidth: 144,
-      frameHeight: 144,
+    this.load.spritesheet("breach", "assets/sprites/breach.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+    this.load.spritesheet("scan", "assets/sprites/scan.png", {
+      frameWidth: 200,
+      frameHeight: 50,
     });
     this.load.spritesheet("door_open", "assets/sprites/door_open.png", {
       frameWidth: 80,
@@ -156,9 +130,13 @@ class preloadGame extends Phaser.Scene {
       spacing: 1,
       margin: 1
     });
-    this.load.spritesheet("scanner", "assets/sprites/scanner.png", {
-      frameWidth: 34,
-      frameHeight: 34,
+    this.load.spritesheet("crate_explode", "assets/sprites/crate_explode.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet("powerups", "assets/sprites/powerups.png", {
+      frameWidth: 28,
+      frameHeight: 28,
       spacing: 1,
       margin: 1
     });
@@ -237,10 +215,15 @@ class preloadGame extends Phaser.Scene {
       margin: 1
     });
 
+
+
+
+
+
+
     this.load.image('blank', 'assets/sprites/blank.png');
-    //this.load.image('caution', 'assets/sprites/caution.png');
-    this.load.image('caution', 'assets/sprites/256x32-power-critical.png')
     this.load.image('star_back', 'assets/sprites/star_back.png');
+    this.load.image('caution', 'assets/sprites/256x32-power-critical.png')
     this.load.image('dialogue', 'assets/sprites/dialogue.png');
     this.load.plugin('rexmodalplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexmodalplugin.min.js', true);
 
@@ -248,10 +231,10 @@ class preloadGame extends Phaser.Scene {
   create() {
 
     this.anims.create({
-      key: 'crate_anim',
-      frames: 'crate_explode',
-      frameRate: 20,
-      repeat: 0
+      key: 'small_scan',
+      frames: 'smallscan',
+      frameRate: 12,
+      repeat: 1
     });
     this.anims.create({
       key: 'explode_anim',
@@ -266,15 +249,15 @@ class preloadGame extends Phaser.Scene {
       repeat: 0
     });
     this.anims.create({
-      key: 'scan_aromor',
-      frames: 'scan',
-      frameRate: 20,
-      repeat: 1
+      key: 'breach_anim',
+      frames: 'breach',
+      frameRate: 8,
+      repeat: 0
     });
     this.anims.create({
-      key: 'small_scan',
-      frames: 'smallscan',
-      frameRate: 12,
+      key: 'scan_anim',
+      frames: 'scan',
+      frameRate: 20,
       repeat: 1
     });
     this.anims.create({
@@ -284,21 +267,11 @@ class preloadGame extends Phaser.Scene {
       repeat: 0
     });
     this.anims.create({
-      key: 'scan_card',
-      frames: 'scan_warning',
-      frameRate: 6,
-      repeat: 2
-    });
-    this.anims.create({
-      key: 'card_scan_anim',
-      frames: 'card_scan',
-      frameRate: 18,
+      key: 'crate_anim',
+      frames: 'crate_explode',
+      frameRate: 20,
       repeat: 0
     });
-
-
-
-
     this.scene.start("startGame");
     //this.scene.start("PlayGame");
 

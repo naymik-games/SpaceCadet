@@ -35,6 +35,8 @@ let cardTypes = {
   PORTAL: { name: 'PORTAL', key: 'cards', frame: 22, hp: 0, addHP: 0, addCell: 0, action: 'addPortal', ammo: 0, canTake: true },
   CRATE: { name: 'CRATE', key: 'cards', frame: 7, hp: 0, addHP: 0, addCell: 0, action: 'collect', canTake: false },
   KEYCARD: { name: 'KEY CARD', key: 'cards', frame: 26, hp: 0, addHP: 0, addCell: 0, action: 'addKey', canTake: true },
+
+  EMPTYCRATE: { name: 'EMPTY ROOM', key: 'cards', frame: 27, hp: 0, addHP: 0, addCell: 0, action: null, canTake: false },
   //enemies
   SCORPOID: { name: 'SCORPOID', key: 'scorpoid', frame: 1, hp: 1, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
   BEASTBOT: { name: 'BEASTBOT', key: 'beastbot', frame: 2, hp: 2, addHP: 0, addCell: 0, action: 'attack', ammo: 0, canTake: false },
@@ -56,6 +58,7 @@ class Deck {
     this.cards = [];
     this.scene = scene
     this.hand = [null, null, null]//cards you have in hand
+    this.backPack = []
     this.cardContainer = scene.add.container()
     this.createDeck(scale)
 
@@ -145,7 +148,9 @@ class Card extends Phaser.GameObjects.Image {
           //this.hero.move(-1)
           // console.log('swipe left')
           this.moveToBottom()
+          this.scene.statusText.setText('')
         } else if (direction == 2) {
+          this.scene.statusText.setText('')
           console.log('down')
           if (!this.faceDown && cardTypes[this.type].canTake) {
             console.log('move to empty slot')
@@ -158,79 +163,106 @@ class Card extends Phaser.GameObjects.Image {
         }
       } else {
         //tap
-        console.log('tap')
-        if (this.faceDown == true) {
-          this.flip('f')
-          playerData.cardsFlipped++
-          if (playerData.power == 0) {
-            playerData.hp -= 1
-            this.scene.addHP()
-          } else {
-            playerData.power -= 1
-            this.scene.addPower()
-          }
-          if (cardTypes[this.type].action == 'explode') {
-            console.log('BOOM!')
-            var explodetween = this.scene.tweens.add({
-              targets: this,
-              alpha: .4,
-              delay: 100,
-              duration: 1000,
-              onComplete: () => {
-                this.useCard()
-                this.scene.doExplosion(this.x, this.y)
-                this.scene.damagePlayer(3)
-              }
-            })
-
-          } else if (cardTypes[this.type].action == 'radiate') {
-            console.log('OUCH!')
-            var radiatetween = this.scene.tweens.add({
-              targets: this,
-              alpha: .4,
-              delay: 100,
-              duration: 1000,
-              onComplete: () => {
-                this.useCard()
-                this.scene.doRadiate(this.x, this.y)
-                //this.scene.damagePlayer(1)
-                if (playerData.armorRad) {
-                  playerData.armorRad = false
-                  this.scene.addRad()
-
-                } else {
-                  if (playerData.power > 0) {
-                    if (playerData.power == 1) {
-                      playerData.power = 0
-                      this.scene.addPower()
-                    } else {
-                      playerData.power = 1
-                      this.scene.addPower()
-                    }
-
-                  } else {
-                    this.scene.damagePlayer(1)
-                  }
-
-                  // this.scene.addRad()
-                }
-
-              }
-            })
-
-          }
-          this.scene.testText.setText(cardTypes[this.type].name)
-        } else {
-          if (this.type == 'EXIT') {
-            this.scene.endSector(this.x, this.y)
-          }
-        }
+        this.scene.statusText.setText('')
+        this.checkCardOnFlip()
 
       }
 
     }
 
 
+  }
+  //...
+  checkCardOnFlip() {
+    console.log('tap')
+    if (this.faceDown == true) {
+      this.flip('f')
+      playerData.cardsFlipped++
+      if (playerData.power == 0) {
+        playerData.hp -= 1
+        this.scene.addHP()
+      } else {
+        playerData.power -= 1
+        this.scene.addPower()
+      }
+      ////EXPLOSION
+      if (cardTypes[this.type].action == 'explode') {
+        this.scene.statusText.setText('SHIP EXPLOSION')
+        console.log('BOOM!')
+        var explodetween = this.scene.tweens.add({
+          targets: this,
+          alpha: .4,
+          delay: 100,
+          duration: 1000,
+          onComplete: () => {
+            this.useCard()
+            this.scene.doExplosion(this.x, this.y)
+            this.scene.damagePlayer(3)
+          }
+        })
+
+      } else if (cardTypes[this.type].action == 'radiate') {
+        /////RADIATION
+        console.log('OUCH!')
+        this.scene.statusText.setText('RADIATION LEAK')
+        var radiatetween = this.scene.tweens.add({
+          targets: this,
+          alpha: .4,
+          delay: 100,
+          duration: 1000,
+          onComplete: () => {
+            this.useCard()
+            this.scene.doRadiate(this.x, this.y)
+            //this.scene.damagePlayer(1)
+            if (playerData.armorRad) {
+              playerData.armorRad = false
+              this.scene.addRad()
+
+            } else {
+              if (playerData.power > 0) {
+                if (playerData.power == 1) {
+                  playerData.power = 0
+                  this.scene.addPower()
+                } else {
+                  playerData.power = 1
+                  this.scene.addPower()
+                }
+
+              } else {
+                this.scene.damagePlayer(1)
+              }
+
+              // this.scene.addRad()
+            }
+
+          }
+        })
+
+      } else if (cardTypes[this.type].action == 'breach') {
+        //BREACH
+        console.log('BOOM!')
+        this.scene.statusText.setText('HULL BREACHED')
+        this.scene.doBreach(this.x, this.y)
+        deck.hand[this.findFilledSlot()].remove()
+        var breachtween = this.scene.tweens.add({
+          targets: this,
+          alpha: .4,
+          delay: 1000,
+          duration: 500,
+          onComplete: () => {
+            this.useCard()
+
+            //this.scene.damagePlayer(3)
+          }
+        })
+
+      }
+
+    } else {
+      if (this.type == 'EXIT') {
+        this.scene.doDoor(this.x, this.y)
+      }
+    }
   }
   // ...
   getSwipeDirection(swipeNormal) {
@@ -343,6 +375,15 @@ class Card extends Phaser.GameObjects.Image {
     }
     return -1
   }
+  //..
+  findFilledSlot() {
+    for (let i = 0; i < slots.length; i++) {
+      if (!slots[i].empty) {
+        return i
+      }
+    }
+    return -1
+  }
   // ...
   flip(dir) {
 
@@ -390,60 +431,6 @@ class Card extends Phaser.GameObjects.Image {
 
       ]
     });
-
-
-
-    /* 
-        const timeline = this.scene.tweens.timeline({
-          onComplete: () => {
-            timeline.destroy()
-          }
-        })
-    
-        timeline.add({
-          targets: this,
-          scaleY: this.cardScale + .2,
-          scaleX: this.cardScale + .2,
-          delay: 0,
-          duration: 100,
-          ease: 'Linear'
-        })
-        timeline.add({
-          targets: this,
-          scaleX: 0,
-          delay: 200,
-          duration: 200,
-          ease: 'Linear',
-          onComplete: () => {
-            if (dir == 'f') {
-              this.setTexture(cardTypes[this.type].key)
-              this.setFrame(this.cardFrame)
-              this.faceDown = false;
-            } else {
-              this.setTexture('cards')
-              this.setFrame(1)
-              this.faceDown = true;
-            }
-          }
-        })
-        timeline.add({
-          targets: this,
-    
-          scaleX: this.cardScale + .2,
-          delay: 0,
-          duration: 200,
-          ease: 'Linear'
-        })
-        timeline.add({
-          targets: this,
-          scaleY: this.cardScale,
-          scaleX: this.cardScale,
-          delay: 200,
-          duration: 100,
-          ease: 'Linear'
-        })
-        timeline.play()
-     */
 
 
   }

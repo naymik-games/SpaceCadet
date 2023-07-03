@@ -76,8 +76,9 @@ class playGame extends Phaser.Scene {
     var sectortween = this.tweens.add({
       targets: this.sectorText,
       alpha: 1,
-      duration: 500,
+      duration: 100,
       delay: 300,
+     // yoyo: true
       /*  onComplete: () => {
          this.setGame()
        } */

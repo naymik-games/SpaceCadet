@@ -1,3 +1,5 @@
+
+
 class HandCard extends Phaser.GameObjects.Image {
   constructor(scene, x, y, texture, frame, type, slot) {
     super(scene, x, y, texture, frame, type);
@@ -10,6 +12,7 @@ class HandCard extends Phaser.GameObjects.Image {
     this.ammo = cardTypes[type].ammo
     this.setScale(2.5)
     this.slot = slot
+    this.backPack = false
     this.setFrame(frame)
     this.frameNumber = frame
     this.setInteractive()
@@ -33,6 +36,7 @@ class HandCard extends Phaser.GameObjects.Image {
 
         } else if (direction == 0) {
           //this.hero.move(1)
+          this.save()
           console.log('swipe right')
         } else if (direction == 1) {
           //this.hero.move(-1)
@@ -41,7 +45,12 @@ class HandCard extends Phaser.GameObjects.Image {
         } else if (direction == 2) {
           console.log('down')
           console.log('remove')
-          this.remove()
+          if (this.backPack) {
+            this.moveBack()
+          } else {
+            this.remove()
+          }
+
         }
       } else {
         //tap
@@ -137,7 +146,7 @@ class HandCard extends Phaser.GameObjects.Image {
       onComplete: () => {
         deck.hand[this.slot] = null
         slots[this.slot].empty = true
-        this.scene.saveGame()
+        //this.scene.saveGame()
         this.destroy()
 
       }
@@ -156,6 +165,60 @@ class HandCard extends Phaser.GameObjects.Image {
         this.destroy()
       }
     })
+  }
+  save() {
+    if (deck.backPack.length < 1 && playerData.backPack)
+      this.scene.tweens.add({
+        targets: this,
+        x: game.config.width - 100,
+        y: game.config.height / 2 + 140,
+        scale: 2,
+        delay: 0,
+        duration: 100,
+        ease: 'Linear',
+        onComplete: () => {
+          deck.hand[this.slot] = null
+          slots[this.slot].empty = true
+          this.slot = null
+          this.backPack = true
+          deck.backPack.push(this)
+          //this.destroy()
+        }
+      })
+  }
+  //...
+  moveBack() {
+    var emptySlot = this.findEmptySlot()
+    if (emptySlot > -1) {
+
+      this.scene.tweens.add({
+        targets: this,
+        scaleY: 2.5,
+        scaleX: 2.5,
+        x: slots[emptySlot].x,
+        y: slots[emptySlot].y,
+        delay: 0,
+        duration: 100,
+        ease: 'Linear',
+        onComplete: () => {
+
+          deck.hand[emptySlot] = deck.backPack.pop()
+          slots[emptySlot].empty = false
+          this.slot = emptySlot
+          this.backPack = false
+          //this.destroy()
+        }
+      })
+    }
+  }
+  //..
+  findEmptySlot() {
+    for (let i = 0; i < slots.length; i++) {
+      if (slots[i].empty) {
+        return i
+      }
+    }
+    return -1
   }
 }
 //slots[slot].x, slots[slot].y, 'cards', cardTypes[type].frame, type, slot
